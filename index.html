@@ -2,9 +2,9 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   --sand: #f5ead8;
@@ -16,114 +16,192 @@
   --cream: #fdf8f0;
   --ink: #1a1208;
   --gold: #c8a84b;
-  --fog: rgba(245,234,216,0.6);
+  --gold-light: #e8c870;
+  --purple: #8b4f8a;
+  --rust: #c45a2a;
+  --blue: #3a7ca5;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; }
-
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   background: var(--cream);
   color: var(--ink);
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* — HERO — */
-.hero {
+/* ── BANNER SLIDER ── */
+.banner {
   position: relative;
-  min-height: 340px;
+  height: 100svh;
+  min-height: 500px;
+  max-height: 750px;
+  overflow: hidden;
+}
+.slides {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 2.5rem 2.5rem 2rem;
-  overflow: hidden;
-  background: var(--sea);
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
 }
-
-.hero-bg {
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse 70% 80% at 80% 30%, rgba(200,168,75,0.25) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 60% at 10% 80%, rgba(196,98,45,0.3) 0%, transparent 55%),
-    linear-gradient(165deg, #1a3d52 0%, #2a6b8a 40%, #1e5570 100%);
-}
-
-.hero-waves {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 90px;
-  overflow: hidden;
-}
-.hero-waves svg { width:100%; height:100%; }
-
-.deco {
-  position: absolute;
-  pointer-events: none;
-  opacity: 0.15;
-  font-size: 5rem;
-}
-.deco-1 { top: 10%; right: 5%; transform: rotate(20deg); }
-.deco-2 { top: 30%; right: 22%; transform: rotate(-10deg); font-size: 3.5rem; opacity: 0.1; }
-.deco-3 { top: 55%; left: 3%; transform: rotate(8deg); font-size: 4rem; }
-
-.hero-badge {
+.slide {
+  min-width: 100%;
+  height: 100%;
   position: relative;
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 60px;
-  padding: 0.3rem 1rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: #fde8c4;
+  overflow: hidden;
+}
+.slide-1 { background: linear-gradient(160deg, #0d2b3e 0%, #1e5a7a 45%, #2a7a5a 100%); }
+.slide-2 { background: linear-gradient(160deg, #3d1a0a 0%, #c4622d 50%, #8a3a18 100%); }
+.slide-3 { background: linear-gradient(160deg, #1a1a3e 0%, #2a2a6a 50%, #8b4f8a 100%); }
+.slide-4 { background: linear-gradient(160deg, #1a0d00 0%, #5a3010 50%, #c8a84b 100%); }
+
+.slide-shapes {
+  position: absolute; inset: 0; pointer-events: none;
+  overflow: hidden;
+}
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.12;
+}
+.slide-1 .shape-a { width: 400px; height: 400px; background: #4a9ab8; top: -100px; right: -80px; }
+.slide-1 .shape-b { width: 250px; height: 250px; background: #c8a84b; bottom: 20px; left: -60px; }
+.slide-2 .shape-a { width: 500px; height: 500px; background: #fde8c4; top: -150px; left: -100px; }
+.slide-2 .shape-b { width: 200px; height: 200px; background: #c8a84b; bottom: 40px; right: -40px; }
+.slide-3 .shape-a { width: 350px; height: 350px; background: #e8c870; top: -80px; right: -80px; }
+.slide-3 .shape-b { width: 300px; height: 300px; background: #e870c8; bottom: -80px; left: -60px; }
+.slide-4 .shape-a { width: 450px; height: 450px; background: #fde8c4; top: -120px; right: -100px; }
+.slide-4 .shape-b { width: 200px; height: 200px; background: #c8a84b; bottom: 60px; left: 40px; opacity: 0.25; }
+
+.slide-emoji {
+  position: absolute;
+  font-size: clamp(4rem, 20vw, 9rem);
+  pointer-events: none;
+  filter: drop-shadow(0 8px 30px rgba(0,0,0,0.3));
+  animation: floatEmoji 4s ease-in-out infinite;
+}
+.slide-1 .slide-emoji { top: 12%; right: 8%; }
+.slide-2 .slide-emoji { top: 8%; right: 10%; }
+.slide-3 .slide-emoji { top: 10%; right: 6%; }
+.slide-4 .slide-emoji { top: 10%; right: 8%; }
+
+@keyframes floatEmoji {
+  0%,100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+}
+
+.slide-content {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  padding-bottom: clamp(4rem, 10vw, 5rem);
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+}
+.slide-tag {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 1rem;
-  width: fit-content;
-}
-
-.hero-title {
-  position: relative;
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 5vw, 3.2rem);
-  color: #fff;
-  line-height: 1.1;
-  margin-bottom: 0.6rem;
-}
-
-.hero-title em {
-  font-style: italic;
-  color: #fde8c4;
-}
-
-.hero-sub {
-  position: relative;
-  color: rgba(255,255,255,0.7);
-  font-size: 0.85rem;
-  font-weight: 300;
-  letter-spacing: 0.3px;
-  margin-bottom: 1.5rem;
-}
-
-.lang-row {
-  position: relative;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.lang-btn {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
   border: 1px solid rgba(255,255,255,0.25);
-  color: rgba(255,255,255,0.7);
-  padding: 0.35rem 1rem;
   border-radius: 60px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.8rem;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 0.8rem;
+}
+.slide-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 9vw, 4rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.05;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+}
+.slide-title em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+.slide-sub {
+  color: rgba(255,255,255,0.75);
+  font-size: clamp(0.8rem, 3vw, 0.95rem);
+  font-weight: 300;
+  line-height: 1.5;
+  max-width: 340px;
+}
+
+.banner-dots {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.4);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.dot.active {
+  width: 24px;
+  background: var(--gold);
+}
+.scroll-cue {
+  position: absolute;
+  bottom: 1.6rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  z-index: 10;
+}
+.scroll-arrow {
+  width: 22px; height: 22px;
+  border-right: 2px solid rgba(255,255,255,0.4);
+  border-bottom: 2px solid rgba(255,255,255,0.4);
+  transform: rotate(45deg);
+  animation: scrollBounce 1.5s ease-in-out infinite;
+}
+@keyframes scrollBounce {
+  0%,100% { transform: rotate(45deg) translateY(0); }
+  50% { transform: rotate(45deg) translateY(5px); }
+}
+.lang-row-hero {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  display: flex;
+  gap: 0.4rem;
+  z-index: 20;
+}
+.lang-btn {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.75);
+  padding: 0.3rem 0.85rem;
+  border-radius: 60px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
   cursor: pointer;
   transition: all 0.2s;
+  backdrop-filter: blur(8px);
 }
 .lang-btn.active {
   background: var(--gold);
@@ -131,180 +209,215 @@ body {
   color: var(--ink);
   font-weight: 600;
 }
-.lang-btn:not(.active):hover {
-  background: rgba(255,255,255,0.18);
-  color: #fff;
-}
 
-/* — CONTENT — */
+/* ── CONTENT ── */
 .content {
-  max-width: 780px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 1.8rem 1rem 5rem;
 }
-
+.summary-bar {
+  display: flex;
+  gap: 0;
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(26,18,8,0.1);
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(200,168,75,0.15);
+}
+.summary-item {
+  flex: 1;
+  padding: 1rem 0.5rem;
+  text-align: center;
+  border-right: 1px solid rgba(200,168,75,0.15);
+}
+.summary-item:last-child { border-right: none; }
+.summary-icon { font-size: 1.4rem; margin-bottom: 0.3rem; }
+.summary-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--terracotta);
+  line-height: 1;
+}
+.summary-lbl {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #8f7a64;
+  margin-top: 2px;
+}
 .tip-card {
   background: linear-gradient(135deg, #e8f4ea, #d4edda);
   border-left: 4px solid var(--olive);
   border-radius: 16px;
-  padding: 1rem 1.3rem;
-  margin-bottom: 2.5rem;
-  font-size: 0.88rem;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.8rem;
+  font-size: 0.85rem;
   line-height: 1.6;
   display: flex;
   gap: 10px;
   align-items: flex-start;
 }
-.tip-card .tip-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+.tip-icon { font-size: 1.3rem; flex-shrink: 0; }
 .tip-card strong { color: var(--olive); }
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 1.2rem;
+  padding-left: 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
-/* — TIMELINE — */
+/* ── TIMELINE ── */
 .timeline {
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 0;
 }
-
 .timeline::before {
   content: '';
   position: absolute;
-  left: 30px;
-  top: 20px;
-  bottom: 20px;
+  left: 18px;
+  top: 24px;
+  bottom: 24px;
   width: 2px;
-  background: linear-gradient(to bottom, var(--terracotta), var(--sea), var(--gold));
-  opacity: 0.3;
+  background: linear-gradient(to bottom,
+    var(--sea) 0%,
+    var(--olive) 15%,
+    var(--terracotta) 30%,
+    var(--purple) 45%,
+    var(--rust) 60%,
+    var(--gold) 75%,
+    var(--blue) 90%
+  );
+  opacity: 0.25;
 }
-
 .day-entry {
   position: relative;
-  padding-left: 72px;
-  padding-bottom: 2.5rem;
-  animation: fadeSlide 0.5s ease both;
+  padding-left: 54px;
+  padding-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
-
-@keyframes fadeSlide {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+.day-entry.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
-
 .day-dot {
   position: absolute;
-  left: 14px;
-  top: 6px;
-  width: 34px;
-  height: 34px;
+  left: 3px;
+  top: 8px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: white;
   z-index: 2;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+  border: 3px solid var(--cream);
 }
-
 .dot-0 { background: var(--sea); }
 .dot-1 { background: var(--olive); }
 .dot-2 { background: var(--terracotta); }
-.dot-3 { background: #8b4f8a; }
-.dot-4 { background: #c45a2a; }
+.dot-3 { background: var(--purple); }
+.dot-4 { background: var(--rust); }
 .dot-5 { background: var(--gold); }
-.dot-6 { background: #3a7ca5; }
-
+.dot-6 { background: var(--blue); }
 .day-card {
   background: white;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(26,18,8,0.07);
-  border: 1px solid rgba(200,168,75,0.12);
+  box-shadow: 0 2px 16px rgba(26,18,8,0.07);
+  border: 1px solid rgba(200,168,75,0.1);
   transition: transform 0.2s, box-shadow 0.2s;
 }
-.day-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(26,18,8,0.12);
+.day-card:active {
+  transform: scale(0.99);
 }
-
 .card-header {
-  padding: 1rem 1.3rem 0.7rem;
-  border-bottom: 1px solid #f5ead8;
+  padding: 1rem 1.1rem 0.8rem;
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  flex-wrap: wrap;
+  align-items: flex-start;
   gap: 0.5rem;
+  border-bottom: 1px solid #f5ead8;
 }
-
 .day-label {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--terracotta);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
 }
-
 .day-title-text {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
-  line-height: 1.3;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.25;
   color: var(--ink);
 }
-
 .distance-badge {
-  background: #f0ede7;
-  padding: 0.2rem 0.7rem;
+  background: #f0f6fa;
+  padding: 0.25rem 0.65rem;
   border-radius: 40px;
-  font-size: 0.7rem;
-  font-weight: 500;
+  font-size: 0.65rem;
+  font-weight: 600;
   color: var(--sea);
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
+  flex-shrink: 0;
 }
-
 .card-body {
-  padding: 0.6rem 1.3rem 1.1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+  padding: 0;
 }
-
 .block {
   display: flex;
-  gap: 0.9rem;
-  padding: 0.65rem 0;
-  border-bottom: 1px dashed rgba(200,168,75,0.2);
+  gap: 0.85rem;
+  padding: 0.75rem 1.1rem;
+  border-bottom: 1px dashed rgba(200,168,75,0.18);
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
 }
 .block:last-child { border-bottom: none; }
-
+.block:active { background: rgba(200,168,75,0.06); }
 .block-icon {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   flex-shrink: 0;
-  margin-top: 2px;
-  width: 32px;
+  width: 30px;
   text-align: center;
+  padding-top: 1px;
 }
-
-.block-info { flex: 1; }
-
+.block-info { flex: 1; min-width: 0; }
 .block-label {
-  font-size: 0.72rem;
+  font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--sea);
   margin-bottom: 0.2rem;
 }
-
 .block-text {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: #3a2e20;
   line-height: 1.55;
 }
-
 .map-link {
   display: inline-flex;
   align-items: center;
@@ -312,180 +425,333 @@ body {
   font-size: 0.7rem;
   color: var(--terracotta);
   text-decoration: none;
-  margin-top: 4px;
-  font-weight: 500;
+  margin-top: 5px;
+  font-weight: 600;
+  background: rgba(196,98,45,0.08);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  transition: background 0.15s;
 }
-.map-link:hover { text-decoration: underline; }
+.map-link:hover, .map-link:active {
+  background: rgba(196,98,45,0.15);
+}
+
+/* FORMULÁRIO COMENTÁRIOS */
+.comments-box {
+  background: white;
+  border-radius: 24px;
+  margin: 2rem 0 1.5rem;
+  padding: 1.2rem;
+  box-shadow: 0 2px 16px rgba(26,18,8,0.07);
+  border: 1px solid rgba(200,168,75,0.15);
+}
+.comments-box h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--sea);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  color: #7e6b5a;
+}
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ddd2c2;
+  border-radius: 28px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  background: #fefcf9;
+}
+.form-group textarea {
+  border-radius: 20px;
+  resize: vertical;
+  min-height: 90px;
+}
+.submit-btn {
+  background: var(--terracotta);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 40px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.submit-btn:hover { background: var(--terracotta-light); }
+.feedback {
+  margin-top: 10px;
+  font-size: 0.75rem;
+}
 
 footer {
   text-align: center;
-  padding: 2rem 1.5rem;
-  font-size: 0.78rem;
+  padding: 2rem 1rem 2.5rem;
+  font-size: 0.75rem;
   color: #8f7a64;
   border-top: 1px dashed #e0c9a6;
-  margin: 0 1.5rem;
+  margin: 0 1rem;
 }
-
-footer .footer-brand {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-style: italic;
   color: var(--terracotta);
   display: block;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.4rem;
 }
 
-@media (max-width: 540px) {
-  .timeline::before { left: 22px; }
-  .day-entry { padding-left: 56px; }
-  .day-dot { left: 6px; width: 28px; height: 28px; font-size: 0.7rem; }
-  .hero { padding: 1.5rem 1.2rem 1.5rem; }
+@media (max-width: 480px) {
+  .day-title-text { font-size: 1.05rem; }
+  .slide-content { padding: 1.2rem; padding-bottom: 3.5rem; }
+  .content { padding: 1.4rem 0.8rem 5rem; }
 }
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-bg"></div>
-  <div class="deco deco-1">⛵</div>
-  <div class="deco deco-2">🌊</div>
-  <div class="deco deco-3">🌋</div>
-  <div class="hero-waves">
-    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,40 C240,80 480,5 720,50 C960,90 1200,20 1440,55 L1440,90 L0,90 Z" fill="#fdf8f0"/>
-    </svg>
+<div class="banner" id="banner">
+  <div class="lang-row-hero" id="langRow">
+    <button class="lang-btn" data-lang="pt">🇧🇷 PT</button>
+    <button class="lang-btn active" data-lang="fr">🇫🇷 FR</button>
   </div>
-  <div class="hero-badge">🇮🇹 Sicile · 7 jours · 22 personnes</div>
-  <h1 class="hero-title"><em>Tindari</em><br>Expérience</h1>
-  <p class="hero-sub">Culture · Volcans · Îles Éoliennes — de 3 à 80 ans</p>
-  <div class="lang-row" id="langRow">
-    <button class="lang-btn" data-lang="pt">🇧🇷 Português</button>
-    <button class="lang-btn active" data-lang="fr">🇫🇷 Français</button>
+  <div class="slides" id="slides">
+    <div class="slide slide-1">
+      <div class="slide-shapes"><div class="shape shape-a"></div><div class="shape shape-b"></div></div>
+      <div class="slide-emoji">⛵</div>
+      <div class="slide-content">
+        <div class="slide-tag" id="s1-tag">🇮🇹 Sicile · 7 jours</div>
+        <h1 class="slide-title" id="s1-title"><em>Tindari</em><br>Expérience</h1>
+        <p class="slide-sub" id="s1-sub">Culture · Volcans · Îles Éoliennes — de 3 à 80 ans</p>
+      </div>
+    </div>
+    <div class="slide slide-2">
+      <div class="slide-shapes"><div class="shape shape-a"></div><div class="shape shape-b"></div></div>
+      <div class="slide-emoji">🌋</div>
+      <div class="slide-content">
+        <div class="slide-tag" id="s2-tag">Jour 5 · Highlight</div>
+        <h1 class="slide-title" id="s2-title">Etna &<br><em>Taormine</em></h1>
+        <p class="slide-sub" id="s2-sub">Cratères Silvestri · Granita · Théâtre antique</p>
+      </div>
+    </div>
+    <div class="slide slide-3">
+      <div class="slide-shapes"><div class="shape shape-a"></div><div class="shape shape-b"></div></div>
+      <div class="slide-emoji">🚤</div>
+      <div class="slide-content">
+        <div class="slide-tag" id="s3-tag">Jour 6 · Mer</div>
+        <h1 class="slide-title" id="s3-title">Îles<br><em>Éoliennes</em></h1>
+        <p class="slide-sub" id="s3-sub">Lipari · Vulcano · Départ Milazzo</p>
+      </div>
+    </div>
+    <div class="slide slide-4">
+      <div class="slide-shapes"><div class="shape shape-a"></div><div class="shape shape-b"></div></div>
+      <div class="slide-emoji">🏛️</div>
+      <div class="slide-content">
+        <div class="slide-tag" id="s4-tag">Jour 3 · UNESCO</div>
+        <h1 class="slide-title" id="s4-title"><em>Cefalù</em><br>& Méditerranée</h1>
+        <p class="slide-sub" id="s4-sub">Cathédrale normande · Plage de sable</p>
+      </div>
+    </div>
   </div>
+  <div class="banner-dots" id="bannerDots">
+    <div class="dot active" data-i="0"></div>
+    <div class="dot" data-i="1"></div>
+    <div class="dot" data-i="2"></div>
+    <div class="dot" data-i="3"></div>
+  </div>
+  <div class="scroll-cue"><div class="scroll-arrow"></div></div>
 </div>
 
 <div class="content">
+  <div class="summary-bar">
+    <div class="summary-item"><div class="summary-icon">🗓️</div><div class="summary-num">7</div><div class="summary-lbl" id="lbl-days">Jours</div></div>
+    <div class="summary-item"><div class="summary-icon">👥</div><div class="summary-num">22</div><div class="summary-lbl" id="lbl-people">Personnes</div></div>
+    <div class="summary-item"><div class="summary-icon">📍</div><div class="summary-num">12</div><div class="summary-lbl" id="lbl-stops">Étapes</div></div>
+    <div class="summary-item"><div class="summary-icon">🌡️</div><div class="summary-num">28°</div><div class="summary-lbl" id="lbl-temp">Été</div></div>
+  </div>
+
   <div class="tip-card" id="tipCard"></div>
+  <div class="section-title" id="sectionTitle">📅 Programme</div>
   <div class="timeline" id="timeline"></div>
+
+  <!-- Formulaire commentaires -->
+  <div class="comments-box">
+    <h3>✍️ <span id="commentTitle">Laisser un commentaire</span></h3>
+    <div class="form-group"><label id="nameLabel">Votre nom</label><input type="text" id="commentName" placeholder="ex: Marie Dupont"></div>
+    <div class="form-group"><label id="emailLabel">Email (pour réponse)</label><input type="email" id="commentEmail" placeholder="exemple@email.com"></div>
+    <div class="form-group"><label id="msgLabel">Message / suggestion</label><textarea id="commentMsg" placeholder="Partagez votre avis sur ce voyage..."></textarea></div>
+    <button class="submit-btn" id="sendBtn">📧 <span id="sendText">Envoyer à Charlotte</span></button>
+    <div id="formFeedback" class="feedback"></div>
+  </div>
 </div>
 
-<footer>
-  <span class="footer-brand">Tindari · Culture & Côtier</span>
-  Itinéraire 7 jours optimisé pour familles multi-générationnelles · Sicile authentique
-</footer>
+<footer><span class="footer-brand">Tindari · Sicile authentique</span>Itinéraire optimisé pour familles multi-générationnelles · 3 à 80 ans</footer>
 
 <script>
 const content = {
   pt: {
-    tip: { icon: "🧳", text: "Para as praias, reserve sempre um <strong>Lido</strong> com antecedência. No dia 6 (Lipari), saída de Milazzo (barco ~1h). Leve protetor solar e calçado confortável para as caminhadas leves." },
+    tip: { icon: "🧳", text: "Para as praias, reserve sempre um <strong>Lido</strong> com antecedência. No dia 6 (Lipari), saída de Milazzo. Leve protetor solar e calçado confortável." },
+    labels: { days:"Dias", people:"Pessoas", stops:"Paradas", temp:"Verão", section:"📅 Programa" },
+    slides: [
+      { tag:"🇮🇹 Sicília · 7 dias", title:"<em>Tindari</em><br>Experiência", sub:"Cultura · Vulcões · Eólias — de 3 a 80 anos" },
+      { tag:"Dia 5 · Destaque", title:"Etna &<br><em>Taormina</em>", sub:"Crateri Silvestri · Granita · Teatro Greco" },
+      { tag:"Dia 6 · Mar", title:"Ilhas<br><em>Eólias</em>", sub:"Lipari · Vulcano · Saída de Milazzo" },
+      { tag:"Dia 3 · UNESCO", title:"<em>Cefalù</em><br>& Mediterrâneo", sub:"Catedral normanda · Praia de areia" }
+    ],
     days: [
-      { color: 0, label: "Dia 1", title: "Lagoas de Marinello & Boas-vindas", distance: "~15 km",
-        blocks: [
-          { icon: "🏖️", label: "Natureza & Praia", text: "Laghetti di Marinello (Oliveri). Águas rasas e quentes, perfeitas para crianças e idosos. Barco opcional para evitar caminhada.", map: "https://www.google.com/maps/search/?api=1&query=Laghetti+di+Marinello+Oliveri" },
-          { icon: "🍝", label: "Gastronomia", text: "Trattoria da Benito. Jantar de boas-vindas com massas de frutos do mar, ambiente acolhedor para grupos.", map: "https://www.google.com/maps/search/?api=1&query=Trattoria+da+Benito+Oliveri+Sicily" }
-        ]},
-      { color: 1, label: "Dia 2", title: "Tindari — Santuário e Teatro Grego", distance: "~20 km",
-        blocks: [
-          { icon: "⛪", label: "Cultura", text: "Santuário da Madonna Nera e Teatro Grego. Acesso de autocarro, área plana. Vista deslumbrante sobre o mar.", map: "https://www.google.com/maps/search/?api=1&query=Santuario+di+Tindari+Madonna+Nera" },
-          { icon: "🍽️", label: "Gastronomia", text: "Agriturismo Il Borgo (Patti). Almoço com porco preto dos Nebrodi e produtos caseiros.", map: "https://www.google.com/maps/search/?api=1&query=Agriturismo+Il+Borgo+Patti+Sicilia" },
-          { icon: "🌅", label: "Praia", text: "Final de tarde na Patti Marina. Passeio no Lungomare, calçadão plano e acessível.", map: "https://www.google.com/maps/search/?api=1&query=Patti+Marina+Lungomare+Messina" }
-        ]},
-      { color: 2, label: "Dia 3", title: "Cefalù — Catedral e Praia de Areia", distance: "~120 km",
-        blocks: [
-          { icon: "🏰", label: "UNESCO", text: "Catedral normanda e Lavatoio Medievale. Uma joia à beira-mar.", map: "https://www.google.com/maps/search/?api=1&query=Cattedrale+di+Cefalù+UNESCO" },
-          { icon: "🐟", label: "Gastronomia", text: "Ristorante Al Porticciolo. Peixe fresco e Pasta alla Norma com vista para o porto.", map: "https://www.google.com/maps/search/?api=1&query=Ristorante+Al+Porticciolo+Cefalù" },
-          { icon: "🏖️", label: "Praia", text: "Praia de areia fina no centro — rara na Sicília. Infraestrutura de Lidos completa.", map: "https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Cefalù+Sicily" }
-        ]},
-      { color: 3, label: "Dia 4", title: "Montalbano Elicona & Megálitos de Argimusco", distance: "~90 km",
-        blocks: [
-          { icon: "🏞️", label: "Vila Medieval", text: "Montalbano Elicona, uma das 'Borghi più belli d'Italia'. Castelo e ruínas medievais.", map: "https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+Messina" },
-          { icon: "🗿", label: "Megalitismo", text: "Planície de Argimusco: formações rochosas com alinhamentos megalíticos. Caminhada curta e acessível, vista para o Etna.", map: "https://www.google.com/maps/search/?api=1&query=Argimusco+Megaliths+Sicily" },
-          { icon: "🍝", label: "Gastronomia", text: "Trattoria típica em Montalbano. Produtos locais e ambiente autêntico.", map: "https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+ristorante+tipico" }
-        ]},
-      { color: 4, label: "Dia 5", title: "🌋 Etna + Taormina — Dia WOW", distance: "~200 km",
-        blocks: [
-          { icon: "🌋", label: "Vulcão Ativo", text: "Crateri Silvestri (1900m). Subida acessível. Opcional 4x4 para cotas mais altas.", map: "https://www.google.com/maps/search/?api=1&query=Crateri+Silvestri+Etna" },
-          { icon: "🍧", label: "Granita", text: "Bam Bar (Taormina). A melhor granita da Sicília antes do Teatro Greco.", map: "https://www.google.com/maps/search/?api=1&query=Bam+Bar+Taormina+Granita" },
-          { icon: "🏛️", label: "Teatro Greco", text: "Taormina: teatro greco-romano com vista para o mar e Etna. Acesso fácil para todas as idades.", map: "https://www.google.com/maps/search/?api=1&query=Teatro+Antico+Taormina" }
-        ]},
-      { color: 5, label: "Dia 6", title: "🚤 Ilhas Eólias — Lipari", distance: "~100 km + barco",
-        blocks: [
-          { icon: "⛴️", label: "Excursão marítima", text: "Saída de Milazzo (1h de barco). Lipari: centro histórico, castelo normando, vista para Vulcano.", map: "https://www.google.com/maps/search/?api=1&query=Lipari+Castello" },
-          { icon: "🍽️", label: "Almoço", text: "Restaurante em Lipari (Marina Corta). Peixes frescos e capponata.", map: "https://www.google.com/maps/search/?api=1&query=Lipari+porto+ristorante" },
-          { icon: "🚤", label: "Barco opcional", text: "Tarde livre: praia (Canneto) ou tour de barco para ver Vulcano de perto, grutas e paisagens vulcânicas.", map: "https://www.google.com/maps/search/?api=1&query=Lipari+boat+tour" }
-        ]},
-      { color: 6, label: "Dia 7", title: "Capo d’Orlando — Encerramento", distance: "~40 km",
-        blocks: [
-          { icon: "🛍️", label: "Compras", text: "Capo d'Orlando Marina: lojas de artesanato, boulevard à beira-mar.", map: "https://www.google.com/maps/search/?api=1&query=Capo+d'Orlando+Marina+Messina" },
-          { icon: "🏖️", label: "Praia", text: "Último banho de mar em Capo d'Orlando, águas cristalinas e Lidos confortáveis.", map: "https://www.google.com/maps/search/?api=1&query=Spiaggia+Capo+d'Orlando" },
-          { icon: "🥂", label: "Jantar de Gala", text: "Ristorante Donna Villa (Patti). Vista para as Ilhas Eólias, brinde final inesquecível.", map: "https://www.google.com/maps/search/?api=1&query=Ristorante+Donna+Villa+Patti" }
-        ]}
-    ]
+      { color:0, label:"Dia 1", title:"Lagoas de Marinello & Boas-vindas", distance:"~15 km", blocks:[
+        { icon:"🏖️", label:"Natureza & Praia", text:"Laghetti di Marinello (Oliveri). Águas rasas e quentes, perfeitas para crianças e idosos. Barco opcional para evitar caminhada.", map:"https://www.google.com/maps/search/?api=1&query=Laghetti+di+Marinello+Oliveri" },
+        { icon:"🍝", label:"Gastronomia", text:"Trattoria da Benito. Jantar de boas-vindas com massas de frutos do mar, ambiente acolhedor para grupos.", map:"https://www.google.com/maps/search/?api=1&query=Trattoria+da+Benito+Oliveri+Sicily" }
+      ]},
+      { color:1, label:"Dia 2", title:"Etna + Alcantara + Taormina", distance:"~200 km", blocks:[
+        { icon:"🌋", label:"Vulcão Ativo", text:"Crateri Silvestri (1900m). Subida acessível. Opcional 4x4 para cotas mais altas.", map:"https://www.google.com/maps/search/?api=1&query=Crateri+Silvestri+Etna" },
+        { icon:"🏞️", label:"Garganta Alcantara", text:"Colunas basálticas, visita leve. Caminhada curta e segura.", map:"https://www.google.com/maps/search/?api=1&query=Gole+Alcantara" },
+        { icon:"🍧", label:"Granita & Teatro", text:"Taormina: teatro greco-romano com vista para o mar e Etna. Granita no Bam Bar.", map:"https://www.google.com/maps/search/?api=1&query=Teatro+Antico+Taormina" }
+      ]},
+      { color:2, label:"Dia 3", title:"Montalbano Elicona & Megálitos de Argimusco", distance:"~90 km", blocks:[
+        { icon:"🏞️", label:"Vila Medieval", text:"Montalbano Elicona, uma das 'Borghi più belli d'Italia'. Castelo e ruínas medievais.", map:"https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+Messina" },
+        { icon:"🗿", label:"Megalitismo", text:"Planície de Argimusco: formações rochosas com alinhamentos megalíticos. Caminhada curta e acessível, vista para o Etna.", map:"https://www.google.com/maps/search/?api=1&query=Argimusco+Megaliths+Sicily" },
+        { icon:"🍝", label:"Gastronomia", text:"Trattoria típica em Montalbano. Produtos locais e ambiente autêntico.", map:"https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+ristorante+tipico" }
+      ]},
+      { color:3, label:"Dia 4", title:"Cefalù — Catedral e Praia de Areia", distance:"~120 km", blocks:[
+        { icon:"🏰", label:"UNESCO", text:"Catedral normanda e Lavatoio Medievale. Uma joia à beira-mar.", map:"https://www.google.com/maps/search/?api=1&query=Cattedrale+di+Cefalù+UNESCO" },
+        { icon:"🐟", label:"Gastronomia", text:"Ristorante Al Porticciolo. Peixe fresco e Pasta alla Norma com vista para o porto.", map:"https://www.google.com/maps/search/?api=1&query=Ristorante+Al+Porticciolo+Cefalù" },
+        { icon:"🏖️", label:"Praia", text:"Praia de areia fina no centro — rara na Sicília. Infraestrutura de Lidos completa.", map:"https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Cefalù+Sicily" }
+      ]},
+      { color:4, label:"Dia 5", title:"🚤 Ilhas Eólias — Lipari", distance:" barco", blocks:[
+        { icon:"⛴️", label:"Excursão marítima", text:"Saída de Milazzo (1h de barco). Lipari: centro histórico, castelo normando, vista para Vulcano.", map:"https://www.google.com/maps/search/?api=1&query=Lipari+Castello" },
+        { icon:"🍽️", label:"Almoço", text:"Restaurante em Lipari (Marina Corta). Peixes frescos e capponata.", map:"https://www.google.com/maps/search/?api=1&query=Lipari+porto+ristorante" },
+        { icon:"🚤", label:"Barco opcional", text:"Tarde livre: praia (Canneto) ou tour de barco para ver Vulcano de perto, grutas e paisagens vulcânicas.", map:"https://www.google.com/maps/search/?api=1&query=Lipari+boat+tour" }
+      ]},
+      { color:5, label:"Dia 6", title:"Capo d’Orlando — Encerramento", distance:"~40 km", blocks:[
+        { icon:"🛍️", label:"Compras", text:"Capo d'Orlando Marina: lojas de artesanato, boulevard à beira-mar.", map:"https://www.google.com/maps/search/?api=1&query=Capo+d'Orlando+Marina+Messina" },
+        { icon:"🏖️", label:"Praia", text:"Último banho de mar em Capo d'Orlando, águas cristalinas e Lidos confortáveis.", map:"https://www.google.com/maps/search/?api=1&query=Spiaggia+Capo+d'Orlando" },
+        { icon:"🥂", label:"Jantar de Gala", text:"Ristorante Donna Villa (Patti). Vista para as Ilhas Eólias, brinde final inesquecível.", map:"https://www.google.com/maps/search/?api=1&query=Ristorante+Donna+Villa+Patti" }
+      ]}
+    ],
+    mapLabel: "Ver no mapa"
   },
   fr: {
     tip: { icon: "🧳", text: "Pour les plages, réservez toujours un <strong>Lido</strong> à l'avance. Jour 6 (Lipari) départ de Milazzo (bateau ~1h). Prévoyez crème solaire et chaussures confortables." },
+    labels: { days:"Jours", people:"Personnes", stops:"Étapes", temp:"Été", section:"📅 Programme" },
+    slides: [
+      { tag:"🇮🇹 Sicile · 7 jours", title:"<em>Tindari</em><br>Expérience", sub:"Culture · Volcans · Îles Éoliennes — de 3 à 80 ans" },
+      { tag:"Jour 5 · Highlight", title:"Etna &<br><em>Taormine</em>", sub:"Cratères Silvestri · Granita · Théâtre antique" },
+      { tag:"Jour 6 · Mer", title:"Îles<br><em>Éoliennes</em>", sub:"Lipari · Vulcano · Départ Milazzo" },
+      { tag:"Jour 3 · UNESCO", title:"<em>Cefalù</em><br>& Méditerranée", sub:"Cathédrale normande · Plage de sable" }
+    ],
     days: [
-      { color: 0, label: "Jour 1", title: "Lagunes de Marinello", distance: "~15 km",
-        blocks: [
-          { icon: "🏖️", label: "Nature & Plage", text: "Laghetti di Marinello. Eaux chaudes et peu profondes, parfaites pour les enfants. Bateau optionnel.", map: "https://www.google.com/maps/search/?api=1&query=Laghetti+di+Marinello+Oliveri" },
-          { icon: "🍝", label: "Gastronomie", text: "Trattoria da Benito. Dîner d'accueil avec pâtes aux fruits de mer.", map: "https://www.google.com/maps/search/?api=1&query=Trattoria+da+Benito+Oliveri+Sicily" }
-        ]},
-      { color: 1, label: "Jour 2", title: "Tindari — Sanctuaire et Théâtre Grec", distance: "~20 km",
-        blocks: [
-          { icon: "⛪", label: "Culture", text: "Sanctuaire de la Madone Noire et Théâtre Grec. Navette jusqu'au sommet, zone plane.", map: "https://www.google.com/maps/search/?api=1&query=Santuario+di+Tindari+Madonna+Nera" },
-          { icon: "🍽️", label: "Gastronomie", text: "Agriturismo Il Borgo. Déjeuner fermier avec porc noir des Nebrodi.", map: "https://www.google.com/maps/search/?api=1&query=Agriturismo+Il+Borgo+Patti+Sicilia" },
-          { icon: "🌅", label: "Plage", text: "Fin de journée à Patti Marina. Promenade côtière (Lungomare) facile.", map: "https://www.google.com/maps/search/?api=1&query=Patti+Marina+Lungomare+Messina" }
-        ]},
-      { color: 2, label: "Jour 3", title: "Cefalù — Cathédrale et Plage", distance: "~120 km",
-        blocks: [
-          { icon: "🏰", label: "UNESCO", text: "Cathédrale normande et Lavoir Médiéval. Joyau au bord de la mer.", map: "https://www.google.com/maps/search/?api=1&query=Cattedrale+di+Cefalù+UNESCO" },
-          { icon: "🐟", label: "Gastronomie", text: "Al Porticciolo. Poisson frais, Pasta alla Norma, vue sur le port.", map: "https://www.google.com/maps/search/?api=1&query=Ristorante+Al+Porticciolo+Cefalù" },
-          { icon: "🏖️", label: "Plage", text: "Plage de sable fin au centre, rare en Sicile. Lidos complets.", map: "https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Cefalù+Sicily" }
-        ]},
-      { color: 3, label: "Jour 4", title: "Montalbano & Mégalithes d'Argimusco", distance: "~90 km",
-        blocks: [
-          { icon: "🏞️", label: "Village médiéval", text: "Montalbano Elicona, un des plus beaux villages d'Italie. Château et ruelles charmantes.", map: "https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+Messina" },
-          { icon: "🗿", label: "Mégalithes", text: "Plateau d'Argimusco : rochers sculptés, alignements mystérieux. Courte promenade accessible.", map: "https://www.google.com/maps/search/?api=1&query=Argimusco+Megaliths+Sicily" },
-          { icon: "🍝", label: "Gastronomie", text: "Trattoria typique à Montalbano. Cuisine locale authentique.", map: "https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+ristorante+tipico" }
-        ]},
-      { color: 4, label: "Jour 5", title: "🌋 Etna + Taormine", distance: "~200 km",
-        blocks: [
-          { icon: "🌋", label: "Volcan actif", text: "Cratères Silvestri (1900m). Option 4x4 possible. Vue imprenable.", map: "https://www.google.com/maps/search/?api=1&query=Crateri+Silvestri+Etna" },
-          { icon: "🍧", label: "Granita", text: "Bam Bar (Taormine). La meilleure granita de Sicile.", map: "https://www.google.com/maps/search/?api=1&query=Bam+Bar+Taormina+Granita" },
-          { icon: "🏛️", label: "Théâtre grec", text: "Théâtre antique de Taormine, vue sur l'Etna et la mer. Accès facile.", map: "https://www.google.com/maps/search/?api=1&query=Teatro+Antico+Taormina" }
-        ]},
-      { color: 5, label: "Jour 6", title: "🚤 Îles Éoliennes — Lipari", distance: "~100 km + bateau",
-        blocks: [
-          { icon: "⛴️", label: "Excursion maritime", text: "Départ de Milazzo (1h de bateau). Lipari : centre historique, château normand.", map: "https://www.google.com/maps/search/?api=1&query=Lipari+Castello" },
-          { icon: "🍽️", label: "Déjeuner", text: "Restaurant à Lipari (Marina Corta). Poissons frais, spécialités siciliennes.", map: "https://www.google.com/maps/search/?api=1&query=Lipari+porto+ristorante" },
-          { icon: "🚤", label: "Option bateau", text: "Après-midi libre : plage ou tour en bateau pour voir Vulcano, grottes et paysages volcaniques.", map: "https://www.google.com/maps/search/?api=1&query=Lipari+boat+tour" }
-        ]},
-      { color: 6, label: "Jour 7", title: "Capo d’Orlando — Clôture", distance: "~40 km",
-        blocks: [
-          { icon: "🛍️", label: "Shopping", text: "Marina de Capo d'Orlando : boutiques artisanales, promenade animée.", map: "https://www.google.com/maps/search/?api=1&query=Capo+d'Orlando+Marina+Messina" },
-          { icon: "🏖️", label: "Plage", text: "Dernière baignade à Capo d'Orlando, eaux cristallines, Lidos confortables.", map: "https://www.google.com/maps/search/?api=1&query=Spiaggia+Capo+d'Orlando" },
-          { icon: "🥂", label: "Dîner de Gala", text: "Ristorante Donna Villa (Patti). Vue sur les Éoliennes, toast final inoubliable.", map: "https://www.google.com/maps/search/?api=1&query=Ristorante+Donna+Villa+Patti" }
-        ]}
-    ]
+      { color:0, label:"Jour 1", title:"Lagunes de Marinello", distance:"~15 km", blocks:[
+        { icon:"🏖️", label:"Nature & Plage", text:"Laghetti di Marinello. Eaux chaudes et peu profondes, parfaites pour enfants et seniors. Bateau optionnel.", map:"https://www.google.com/maps/search/?api=1&query=Laghetti+di+Marinello+Oliveri" },
+        { icon:"🍝", label:"Gastronomie", text:"Trattoria da Benito. Dîner d'accueil avec pâtes aux fruits de mer.", map:"https://www.google.com/maps/search/?api=1&query=Trattoria+da+Benito+Oliveri+Sicily" }
+      ]},
+      { color:1, label:"Jour 2", title:"Etna + Alcantara + Taormine", distance:"~200 km", blocks:[
+        { icon:"🌋", label:"Volcan actif", text:"Cratères Silvestri (1900m). Option 4x4 possible. Vue imprenable.", map:"https://www.google.com/maps/search/?api=1&query=Crateri+Silvestri+Etna" },
+        { icon:"🏞️", label:"Gorges Alcantara", text:"Colonnes basaltiques, visite légère et accessible.", map:"https://www.google.com/maps/search/?api=1&query=Gole+Alcantara" },
+        { icon:"🍧", label:"Granita & Théâtre", text:"Taormine : théâtre gréco-romain avec vue sur la mer et l'Etna. Granita au Bam Bar.", map:"https://www.google.com/maps/search/?api=1&query=Teatro+Antico+Taormina" }
+      ]},
+      { color:2, label:"Jour 3", title:"Montalbano & Mégalithes d'Argimusco", distance:"~90 km", blocks:[
+        { icon:"🏞️", label:"Village médiéval", text:"Montalbano Elicona, un des plus beaux villages d'Italie. Château et ruelles charmantes.", map:"https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+Messina" },
+        { icon:"🗿", label:"Mégalithes", text:"Plateau d'Argimusco : rochers sculptés, alignements mystérieux. Courte promenade accessible.", map:"https://www.google.com/maps/search/?api=1&query=Argimusco+Megaliths+Sicily" },
+        { icon:"🍝", label:"Gastronomie", text:"Trattoria typique à Montalbano. Cuisine locale authentique.", map:"https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+ristorante+tipico" }
+      ]},
+      { color:3, label:"Jour 4", title:"Cefalù — Cathédrale et Plage", distance:"~120 km", blocks:[
+        { icon:"🏰", label:"UNESCO", text:"Cathédrale normande et Lavoir Médiéval. Joyau au bord de la mer.", map:"https://www.google.com/maps/search/?api=1&query=Cattedrale+di+Cefalù+UNESCO" },
+        { icon:"🐟", label:"Gastronomie", text:"Al Porticciolo. Poisson frais, Pasta alla Norma, vue sur le port.", map:"https://www.google.com/maps/search/?api=1&query=Ristorante+Al+Porticciolo+Cefalù" },
+        { icon:"🏖️", label:"Plage", text:"Plage de sable fin au centre, rare en Sicile. Lidos complets.", map:"https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Cefalù+Sicily" }
+      ]},
+      { color:4, label:"Jour 5", title:"🚤 Îles Éoliennes — Lipari", distance:"bateau", blocks:[
+        { icon:"⛴️", label:"Excursion maritime", text:"Départ de Milazzo (1h de bateau). Lipari : centre historique, château normand.", map:"https://www.google.com/maps/search/?api=1&query=Lipari+Castello" },
+        { icon:"🍽️", label:"Déjeuner", text:"Restaurant à Lipari (Marina Corta). Poissons frais, spécialités siciliennes.", map:"https://www.google.com/maps/search/?api=1&query=Lipari+porto+ristorante" },
+        { icon:"🚤", label:"Option bateau", text:"Après-midi libre : plage (Canneto) ou tour en bateau pour voir Vulcano, grottes et paysages volcaniques.", map:"https://www.google.com/maps/search/?api=1&query=Lipari+boat+tour" }
+      ]},
+      { color:5, label:"Jour 6", title:"Capo d’Orlando — Clôture", distance:"~40 km", blocks:[
+        { icon:"🛍️", label:"Shopping", text:"Marina de Capo d'Orlando : boutiques artisanales, promenade animée.", map:"https://www.google.com/maps/search/?api=1&query=Capo+d'Orlando+Marina+Messina" },
+        { icon:"🏖️", label:"Plage", text:"Dernière baignade à Capo d'Orlando, eaux cristallines, Lidos confortables.", map:"https://www.google.com/maps/search/?api=1&query=Spiaggia+Capo+d'Orlando" },
+        { icon:"🥂", label:"Dîner de Gala", text:"Ristorante Donna Villa (Patti). Vue sur les Éoliennes, toast final inoubliable.", map:"https://www.google.com/maps/search/?api=1&query=Ristorante+Donna+Villa+Patti" }
+      ]}
+    ],
+    mapLabel: "Voir la carte"
   }
 };
 
 let lang = 'fr';
+let currentSlide = 0;
+let autoTimer;
+const TOTAL_SLIDES = 4;
+
+function goToSlide(n) {
+  currentSlide = (n + TOTAL_SLIDES) % TOTAL_SLIDES;
+  document.getElementById('slides').style.transform = `translateX(-${currentSlide * 100}%)`;
+  document.querySelectorAll('.banner-dots .dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+}
+function startAuto() {
+  clearInterval(autoTimer);
+  autoTimer = setInterval(() => goToSlide(currentSlide + 1), 4500);
+}
+let touchX = null;
+document.getElementById('banner').addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+document.getElementById('banner').addEventListener('touchend', e => {
+  if (touchX === null) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  if (Math.abs(dx) > 40) { goToSlide(currentSlide + (dx < 0 ? 1 : -1)); startAuto(); }
+  touchX = null;
+}, { passive: true });
+document.getElementById('bannerDots').addEventListener('click', e => {
+  const dot = e.target.closest('.dot');
+  if (dot) { goToSlide(+dot.dataset.i); startAuto(); }
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+function updateBannerContent() {
+  const d = content[lang];
+  for (let i = 0; i < 4; i++) {
+    const tag = document.getElementById(`s${i+1}-tag`);
+    const title = document.getElementById(`s${i+1}-title`);
+    const sub = document.getElementById(`s${i+1}-sub`);
+    if (tag) tag.textContent = d.slides[i].tag;
+    if (title) title.innerHTML = d.slides[i].title;
+    if (sub) sub.textContent = d.slides[i].sub;
+  }
+}
 
 function render() {
   const d = content[lang];
+  document.getElementById('lbl-days').textContent = d.labels.days;
+  document.getElementById('lbl-people').textContent = d.labels.people;
+  document.getElementById('lbl-stops').textContent = d.labels.stops;
+  document.getElementById('lbl-temp').textContent = d.labels.temp;
+  document.getElementById('sectionTitle').textContent = d.labels.section;
   document.getElementById('tipCard').innerHTML = `<span class="tip-icon">${d.tip.icon}</span><span>${d.tip.text}</span>`;
+  updateBannerContent();
 
   const tl = document.getElementById('timeline');
   tl.innerHTML = d.days.map((day, i) => `
-    <div class="day-entry" style="animation-delay:${i*0.07}s">
+    <div class="day-entry">
       <div class="day-dot dot-${day.color}">${i+1}</div>
       <div class="day-card">
         <div class="card-header">
-          <div>
-            <div class="day-label">${day.label}</div>
-            <div class="day-title-text">${day.title}</div>
-          </div>
-          <div class="distance-badge"><span>🚐</span> ${day.distance}</div>
+          <div><div class="day-label">${day.label}</div><div class="day-title-text">${day.title}</div></div>
+          <div class="distance-badge">🚐 ${day.distance}</div>
         </div>
         <div class="card-body">
           ${day.blocks.map(b => `
@@ -494,7 +760,7 @@ function render() {
               <div class="block-info">
                 <div class="block-label">${b.label}</div>
                 <div class="block-text">${b.text}</div>
-                <a href="${b.map}" target="_blank" class="map-link">📍 ${lang === 'pt' ? 'Ver no mapa' : 'Voir la carte'}</a>
+                <a href="${b.map}" target="_blank" rel="noopener" class="map-link">📍 ${d.mapLabel}</a>
               </div>
             </div>
           `).join('')}
@@ -502,16 +768,39 @@ function render() {
       </div>
     </div>
   `).join('');
+  document.querySelectorAll('.day-entry').forEach(el => observer.observe(el));
+
+  document.getElementById('commentTitle').innerText = (lang === 'pt' ? 'Deixe um comentário' : 'Laisser un commentaire');
+  document.getElementById('nameLabel').innerText = (lang === 'pt' ? 'Seu nome' : 'Votre nom');
+  document.getElementById('emailLabel').innerText = (lang === 'pt' ? 'E-mail (para resposta)' : 'Email (pour réponse)');
+  document.getElementById('msgLabel').innerText = (lang === 'pt' ? 'Mensagem / sugestão' : 'Message / suggestion');
+  document.getElementById('sendText').innerText = (lang === 'pt' ? 'Enviar ' : 'Envoyer');
 
   document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
 }
 
 document.getElementById('langRow').addEventListener('click', e => {
   const btn = e.target.closest('.lang-btn');
-  if (btn) { lang = btn.dataset.lang; render(); }
+  if (btn && btn.dataset.lang !== lang) { lang = btn.dataset.lang; render(); }
+});
+document.getElementById('sendBtn').addEventListener('click', () => {
+  const nome = document.getElementById('commentName').value.trim();
+  const email = document.getElementById('commentEmail').value.trim();
+  const msg = document.getElementById('commentMsg').value.trim();
+  const feedback = document.getElementById('formFeedback');
+  if (!nome || !msg) {
+    feedback.innerHTML = `<span style="color:#c4622d;">⚠️ ${lang === 'pt' ? 'Por favor, informe seu nome e mensagem.' : 'Veuillez indiquer votre nom et votre message.'}</span>`;
+    return;
+  }
+  const subject = `Commentaire / Roteiro Sicília - ${nome}`;
+  const body = `Nome: ${nome}%0AEmail: ${email || 'não informado'}%0A%0AMensagem:%0A${msg}`;
+  window.location.href = `mailto:charlotte.tabajara@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+  feedback.innerHTML = `<span style="color:#4a5e2a;">📧 ${lang === 'pt' ? 'Seu cliente de e-mail será aberto. Envie para concluir.' : 'Votre client email va s\'ouvrir. Envoyez pour finaliser.'}</span>`;
+  setTimeout(() => feedback.innerHTML = '', 5000);
 });
 
 render();
+startAuto();
 </script>
 </body>
 </html>
