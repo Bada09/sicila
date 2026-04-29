@@ -26,6 +26,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
   background: var(--ink);
 }
 
@@ -37,10 +38,46 @@ body {
   overflow-x: hidden;
 }
 
-button, a { font: inherit; }
-a { color: inherit; text-decoration: none; }
+button,
+a { font: inherit; }
 
-/* --- Topbar --- */
+a { color: inherit; }
+
+.screen {
+  position: relative;
+  min-height: 100svh;
+  scroll-snap-align: start;
+  isolation: isolate;
+}
+.hero {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+.hero-inner {
+  width: 100%;
+  max-width: none;
+}
+.hero {
+  display: grid;
+  align-items: end;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: #10272d;
+  overflow: hidden;
+  width: 100%;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(90deg, rgba(12, 45, 55, 0.88), rgba(12, 45, 55, 0.42) 48%, rgba(21, 18, 15, 0.12)),
+    linear-gradient(0deg, rgba(21, 18, 15, 0.68), rgba(21, 18, 15, 0.04) 55%),
+    url("dia%202%20foto%201.jfif") center / cover;
+}
+
 .topbar {
   position: fixed;
   z-index: 20;
@@ -52,77 +89,454 @@ a { color: inherit; text-decoration: none; }
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 1rem;
-  transition: all 0.35s ease;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.topbar::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 5.75rem;
+  background: linear-gradient(to bottom, rgba(5, 11, 13, 0.86), rgba(5, 11, 13, 0));
+  pointer-events: none;
 }
 
 body.scrolled .topbar {
   opacity: 0;
-  transform: translateX(-50%) translateY(-10px);
   pointer-events: none;
+  transform: translateX(-50%) translateY(-10px);
 }
 
-.brand-pill, .site-menu, .lang-switch {
+.brand-pill,
+.site-menu,
+.lang-switch {
+  pointer-events: auto;
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--line);
+  gap: 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.32);
   background: rgba(10, 18, 20, 0.78);
+  color: #fff;
   backdrop-filter: blur(18px);
-  border-radius: 999px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+}
+
+.brand-pill {
   min-height: 42px;
+  border-radius: 999px;
+  padding: 0 0.95rem;
+  font-weight: 800;
+  font-size: 0.84rem;
 }
 
-.brand-pill { padding: 0 1.2rem; font-weight: 800; font-size: 0.84rem; }
-.site-menu { padding: 0.25rem; justify-self: center; }
-.menu-link { padding: 0 0.8rem; font-size: 0.82rem; font-weight: 800; border-radius: 999px; transition: 0.2s; height: 32px; display: flex; align-items: center; }
-.menu-link:hover { background: rgba(255, 255, 255, 0.14); }
-
-.lang-switch { padding: 0.25rem; }
-.lang-btn { border: 0; background: transparent; color: #fff; cursor: pointer; padding: 0 0.8rem; height: 32px; border-radius: 999px; font-weight: 800; font-size: 0.72rem; }
-.lang-btn.active { background: #fff; color: var(--sea); }
-
-/* --- Hero Section --- */
-.hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: flex-end;
-  padding: 4vw;
-  background: #10272d url("dia%202%20foto%201.jfif") center/cover no-repeat;
+.site-menu {
+  justify-self: center;
+  min-height: 42px;
+  border-radius: 999px;
+  padding: 0.25rem;
 }
 
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(15, 18, 21, 0.9), transparent);
+.menu-link {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0 0.8rem;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 800;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.menu-link:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
+.lang-switch {
+  border-radius: 999px;
+  padding: 0.25rem;
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+}
+
+.lang-btn {
+  min-width: 66px;
+  min-height: 30px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 800;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+body.scrolled .lang-switch {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+}
+
+.lang-btn.active {
+  background: #fff;
+  color: var(--sea);
 }
 
 .hero-inner {
-  position: relative;
-  width: min(1200px, 100%);
-  margin: 0 auto;
+  width: min(1180px, 100%);
+  margin: 0 auto 0 0;
+  padding-top: 7.5rem;
   display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 4rem;
-  align-items: flex-end;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: end;
 }
 
-h1 { font-family: "Playfair Display", serif; font-size: clamp(3rem, 8vw, 6rem); line-height: 1; margin-bottom: 1.5rem; }
-h1 span { color: var(--gold); display: block; }
-.hero-copy { max-width: 600px; font-size: 1.2rem; line-height: 1.6; color: rgba(255, 255, 255, 0.9); }
+.eyebrow {
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--gold);
+  padding-left: 0.75rem;
+  color: #fff1bd;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 
-/* --- ITINERARY (Desktop Fix) --- */
+#familyBadge {
+  border-left-color: var(--olive);
+  color: var(--olive);
+}
+
+h1 {
+  max-width: 760px;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(3.36rem, 10.4vw, 8.4rem);
+  line-height: 0.82;
+  letter-spacing: 0;
+  color: #fff;
+  text-shadow: 0 5px 30px rgba(0, 0, 0, 0.48);
+}
+
+h1 span {
+  display: block;
+  color: #ffdc8b;
+}
+
+.hero-copy {
+  max-width: 680px;
+  margin-top: 1.15rem;
+  color: #f7fbfb;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.65;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.44);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.55rem;
+}
+
+.cta {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 0 1.1rem;
+  color: #fff;
+  background: rgba(10, 18, 20, 0.48);
+  text-decoration: none;
+  font-weight: 800;
+  backdrop-filter: blur(14px);
+}
+
+.weather {
+  align-self: end;
+  justify-self: end;
+  margin-bottom: clamp(0.5rem, 5vh, 4rem);
+  transform: translateX(clamp(0.5rem, 4vw, 2rem));
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 8px;
+  padding: 1rem;
+  background: rgba(7, 18, 22, 0.9);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+}
+
+.weather-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.weather-kicker,
+.panel-kicker {
+  color: #d7edf0;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.weather-place {
+  display: block;
+  margin-top: 0.25rem;
+  color: #fff;
+  font-family: "Playfair Display", serif;
+  font-size: 1.65rem;
+  line-height: 1;
+}
+
+.weather-temp {
+  color: #ffdc8b;
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+  margin-top: 0.9rem;
+}
+
+.weather-item {
+  min-height: 78px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.weather-item span {
+  display: block;
+  color: #d7edf0;
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.weather-item strong {
+  display: block;
+  margin-top: 0.25rem;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.weather-note {
+  margin-top: 0.75rem;
+  color: #eef8f7;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.weather-days {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+}
+
+.weather-day {
+  min-height: 66px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  padding: 0.55rem;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.weather-day span {
+  display: block;
+  color: #d7edf0;
+  font-size: 0.62rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.weather-day strong {
+  display: block;
+  margin-top: 0.2rem;
+  color: #fff;
+  font-size: 0.92rem;
+}
+
+.weather-day small {
+  display: block;
+  margin-top: 0.15rem;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.68rem;
+  line-height: 1.25;
+}
+
+.overview {
+  display: grid;
+  align-items: center;
+  padding: clamp(5rem, 8vw, 7rem) clamp(1rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem);
+  color: var(--ink);
+  background:
+    linear-gradient(120deg, rgba(255, 248, 233, 0.96), rgba(223, 240, 239, 0.9)),
+    url("dia%205%20foto%202.jfif") center / cover;
+}
+
+.overview-inner {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(300px, 1fr);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.section-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.7rem, 7vw, 6.5rem);
+  line-height: 0.92;
+  letter-spacing: 0;
+}
+
+.section-text {
+  margin-top: 1rem;
+  max-width: 560px;
+  color: #3b322a;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.family-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.family-tip {
+  min-height: 155px;
+  border: 1px solid var(--soft-line);
+  border-radius: 8px;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 50px rgba(21, 18, 15, 0.08);
+}
+
+.family-tip span {
+  display: inline-grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+  background: var(--sea-soft);
+  color: var(--sea);
+  font-weight: 900;
+}
+
+.family-tip strong {
+  display: block;
+  font-size: 1.05rem;
+}
+
+.family-tip p {
+  margin-top: 0.45rem;
+  color: #42372e;
+  line-height: 1.55;
+  font-size: 0.94rem;
+}
+
+.culture {
+  display: grid;
+  align-items: center;
+  padding: clamp(5rem, 8vw, 7rem) clamp(1rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem);
+  color: #fff;
+  background:
+    linear-gradient(90deg, rgba(14, 42, 48, 0.96), rgba(14, 42, 48, 0.58)),
+    url("dia%204%20foto%202.jfif") center / cover;
+}
+
+.culture-inner {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(320px, 1fr);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.culture .section-text {
+  color: #eef8f7;
+}
+
+.culture-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.culture-tip {
+  min-height: 178px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 8px;
+  padding: 1rem;
+  background: rgba(8, 24, 29, 0.72);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.16);
+}
+
+.culture-tip span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+  padding: 0 0.65rem;
+  background: rgba(255, 220, 139, 0.18);
+  color: #ffdc8b;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.culture-tip strong {
+  display: block;
+  font-size: 1.08rem;
+}
+
+.culture-tip p {
+  margin-top: 0.45rem;
+  color: #edf7f6;
+  line-height: 1.55;
+  font-size: 0.94rem;
+}
+
 .day {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Dividido igualmente no desktop */
-  background: var(--ink);
-  border-bottom: 1px solid var(--line);
+  grid-template-columns: minmax(312px, 0.58fr) minmax(420px, 1fr);
+  background: #0d1719;
 }
 
 .photo-carousel {
-  position: sticky;
-  top: 0;
-  height: 100vh; /* Altura total da tela */
+  position: relative;
+  min-height: 100svh;
   overflow: hidden;
 }
 
@@ -131,99 +545,450 @@ h1 span { color: var(--gold); display: block; }
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.34) transparent;
+}
+
+.slides::-webkit-scrollbar {
+  height: 3px;
+}
+
+.slides::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.slides::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.34);
 }
 
 .slide {
-  min-width: 100%;
-  height: 100%;
   position: relative;
+  min-width: 100%;
+  height: 100svh;
+  scroll-snap-align: start;
+  overflow: hidden;
+}
+
+.slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(10, 13, 14, 0.32), rgba(10, 13, 14, 0)),
+    linear-gradient(0deg, rgba(10, 13, 14, 0.42), rgba(10, 13, 14, 0.02) 45%);
 }
 
 .slide img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+}
+
+.swipe-hint {
+  position: absolute;
+  z-index: 4;
+  left: clamp(0.65rem, 2vw, 1rem);
+  bottom: clamp(0.65rem, 2vw, 1rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  padding: 0.28rem 0.55rem;
+  background: rgba(8, 15, 17, 0.62);
+  color: #fff;
+  backdrop-filter: blur(10px);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.photo-controls {
+  position: absolute;
+  z-index: 5;
+  right: clamp(0.65rem, 2vw, 1rem);
+  bottom: clamp(0.65rem, 2vw, 1rem);
+  display: flex;
+  gap: 0.35rem;
+}
+
+.photo-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(8, 15, 17, 0.64);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .day-panel {
-  padding: clamp(3rem, 6vw, 6rem);
-  background: var(--cream);
-  color: var(--ink);
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 1.2rem;
+  padding: clamp(5rem, 9vw, 7rem) clamp(1rem, 4vw, 2rem) clamp(2rem, 4vw, 3rem);
+  background:
+    linear-gradient(180deg, rgba(255, 252, 244, 0.99), rgba(255, 248, 233, 0.96)),
+    var(--cream);
+  color: var(--ink);
 }
 
-.day-content-wrapper {
-  max-width: 520px; /* Evita linhas de texto muito longas */
-  margin: 0 auto;
+.day-label {
+  width: fit-content;
+  border: 1px solid rgba(198, 92, 62, 0.22);
+  border-radius: 999px;
+  padding: 0.34rem 0.7rem;
+  color: #8e321e;
+  background: rgba(198, 92, 62, 0.13);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.day-title { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.1; margin: 1rem 0; }
-.day-label { color: var(--coral); font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem; }
-.badge { display: inline-block; padding: 0.4rem 0.8rem; background: var(--sea-soft); color: var(--sea); border-radius: 999px; font-weight: 800; font-size: 0.8rem; margin-right: 0.5rem; margin-bottom: 0.5rem; }
+.day-title {
+  margin-top: 0.7rem;
+  max-width: 780px;
+  font-family: "DM Sans", sans-serif;
+  font-size: clamp(2.05rem, 4.6vw, 3.65rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: 0;
+}
 
-.block { border-top: 1px solid var(--soft-line); padding: 1.2rem 0; }
-.block-label { font-weight: 900; font-size: 0.75rem; text-transform: uppercase; color: var(--olive); margin-bottom: 0.3rem; }
-.block-text { font-size: 1rem; line-height: 1.6; color: #333; }
+.day-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
 
-/* --- Sections --- */
-.overview, .culture { padding: 10vh 5vw; background: var(--paper); color: var(--ink); }
-.overview-inner, .culture-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.badge {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(12, 93, 112, 0.2);
+  border-radius: 999px;
+  padding: 0 0.75rem;
+  color: #083f4d;
+  background: #dff0ef;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
 
-/* --- Weather --- */
-.weather { background: rgba(0,0,0,0.8); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--line); }
+.day-weather {
+  color: #61430b;
+  background: #fff0c2;
+  border-color: rgba(227, 181, 81, 0.42);
+}
 
-/* --- Responsive --- */
-@media (max-width: 1024px) {
-  .hero-inner, .overview-inner, .culture-inner { grid-template-columns: 1fr; }
-  .day { grid-template-columns: 1fr; }
-  .photo-carousel { position: relative; height: 50vh; top: auto; }
-  .day-panel { padding: 3rem 1.5rem; }
+.blocks {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.block {
+  border-top: 1px solid var(--soft-line);
+  padding-top: 0.8rem;
+}
+
+.block-label {
+  color: #405124;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.block-text {
+  margin-top: 0.25rem;
+  color: #2d261f;
+  line-height: 1.55;
+}
+
+.map-link {
+  display: inline-flex;
+  margin-top: 0.4rem;
+  color: #9b3821;
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.map-link:hover { text-decoration: underline; }
+
+.footer {
+  min-height: 28svh;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 3vw, 2rem);
+  color: #fff;
+  background:
+    linear-gradient(90deg, rgba(13, 38, 46, 0.96), rgba(13, 38, 46, 0.54)),
+    url("dia%203%20foto%201.jfif") center / cover;
+  text-align: center;
+}
+
+.footer strong {
+  display: block;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.2rem, 3.5vw, 2.7rem);
+  line-height: 0.95;
+}
+
+.footer span {
+  display: block;
+  max-width: 680px;
+  margin: 1rem auto 0;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+}
+
+@media (max-width: 920px) {
+  html { scroll-snap-type: none; }
+
+  .topbar {
+    align-items: start;
+    grid-template-columns: auto 1fr;
+    gap: 0.6rem;
+  }
+
+  .site-menu {
+    grid-column: 1 / -1;
+    order: 3;
+    justify-self: stretch;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .site-menu::-webkit-scrollbar { display: none; }
+
+  .lang-switch {
+    justify-self: end;
+    max-width: 86px;
+    overflow: hidden;
+  }
+
+  .lang-btn {
+    min-width: 38px;
+    padding: 0 0.45rem;
+    font-size: 0;
+  }
+
+  .lang-btn::before {
+    content: attr(data-lang);
+    font-size: 0.64rem;
+    text-transform: uppercase;
+  }
+
+  .hero-inner,
+  .overview-inner,
+  .culture-inner,
+  .day {
+    grid-template-columns: 1fr;
+  }
+
+  .weather {
+    max-width: 560px;
+    width: 100%;
+    margin: 0;
+    order: 2;
+    transform: none;
+  }
+
+  .photo-carousel,
+  .slide {
+    min-height: 43svh;
+    height: 43svh;
+  }
+
+  .day-panel {
+    min-height: 57svh;
+  }
 }
 
 @media (max-width: 640px) {
-  .topbar { grid-template-columns: 1fr auto; }
-  .site-menu { display: none; } /* Simplificação mobile */
-  h1 { font-size: 2.5rem; }
+  .topbar {
+    top: 0.65rem;
+    width: calc(100% - 1rem);
+  }
+
+  .brand-pill {
+    max-width: 38vw;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .site-menu {
+    min-height: 40px;
+  }
+
+  .menu-link {
+    min-width: max-content;
+    padding: 0 0.7rem;
+    font-size: 0.78rem;
+  }
+
+  .lang-btn {
+    min-width: 34px;
+  }
+
+  h1 {
+    font-size: clamp(2.52rem, 12vw, 3.64rem);
+    line-height: 0.88;
+  }
+
+  .hero-inner {
+    padding-top: 8.6rem;
+    align-items: start;
+    gap: 1.15rem;
+  }
+
+  .weather {
+    padding: 0.85rem;
+  }
+
+  .day-panel {
+    padding-top: 2rem;
+  }
+
+  .day-title {
+    font-size: clamp(1.8rem, 9vw, 2.55rem);
+  }
+
+  .weather-grid,
+  .weather-days,
+  .family-grid,
+  .culture-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .weather-grid {
+    gap: 0.45rem;
+  }
+
+  .weather-head {
+    display: block;
+  }
+
+  .weather-temp {
+    display: block;
+    margin-top: 0.7rem;
+  }
+
+  .photo-controls {
+    right: 1rem;
+  }
+
+  .swipe-hint {
+    max-width: calc(100% - 7.5rem);
+  }
 }
 </style>
 </head>
 <body>
-
-<nav class="topbar">
+<nav class="topbar" aria-label="Langue">
   <div class="brand-pill">Tindari Experience</div>
-  <div class="site-menu">
-    <a class="menu-link" href="#inicio">Home</a>
-    <a class="menu-link" href="#famille">Famille</a>
-    <a class="menu-link" href="#culture">Culture</a>
-    <a class="menu-link" href="#jour-1">Route</a>
+  <div class="site-menu" aria-label="Menu principal">
+    <a class="menu-link" href="#inicio" id="menuHome"></a>
+    <a class="menu-link" href="#famille" id="menuFamily"></a>
+    <a class="menu-link" href="#culture" id="menuCulture"></a>
+    <a class="menu-link" href="#jour-1" id="menuRoute"></a>
   </div>
   <div class="lang-switch" id="langSwitch">
-    <button class="lang-btn active" data-lang="fr">FR</button>
-    <button class="lang-btn" data-lang="pt">PT</button>
+    <button class="lang-btn active" type="button" data-lang="fr" data-lang-short="FR">Français</button>
+    <button class="lang-btn" type="button" data-lang="pt" data-lang-short="PT">Português</button>
   </div>
 </nav>
 
-<header class="hero" id="inicio">
+<header class="screen hero" id="inicio">
   <div class="hero-inner">
     <div>
-      <h1 id="heroTitle">Tindari <span>Experience</span></h1>
-      <p class="hero-copy" id="heroCopy">Un itinéraire plein écran en Sicile: plages faciles, villages historiques et îles Éoliennes.</p>
+      <div class="eyebrow" id="heroBadge"></div>
+      <h1 id="heroTitle"></h1>
+      <p class="hero-copy" id="heroCopy"></p>
+      <div class="hero-actions">
+        <a class="cta" href="#jour-1" id="heroCta"></a>
+        <a class="cta" href="#famille" id="familyCta"></a>
+        <a class="cta" href="#culture" id="cultureCta"></a>
+      </div>
     </div>
-    <aside class="weather">
-      <div id="weatherTemp" style="font-size: 3rem; font-weight: 800; color: var(--gold);">--°</div>
-      <div id="weatherNote">Chargement de la météo...</div>
+
+    <aside class="weather" aria-live="polite">
+      <div class="weather-head">
+        <div>
+          <span class="weather-kicker" id="weatherKicker"></span>
+          <strong class="weather-place">Tindari / Patti</strong>
+        </div>
+        <div class="weather-temp" id="weatherTemp">--°</div>
+      </div>
+      <div class="weather-grid">
+        <div class="weather-item">
+          <span id="weatherWindLabel"></span>
+          <strong id="weatherWind">--</strong>
+        </div>
+        <div class="weather-item">
+          <span id="weatherRainLabel"></span>
+          <strong id="weatherRain">--</strong>
+        </div>
+        <div class="weather-item">
+          <span id="weatherMaxLabel"></span>
+          <strong id="weatherMax">--</strong>
+        </div>
+      </div>
+      <p class="weather-note" id="weatherNote"></p>
+      <div class="weather-days" id="weatherDays"></div>
     </aside>
   </div>
 </header>
 
-<main id="itinerary">
-  </main>
+<main>
+  <section class="screen overview" id="famille">
+    <div class="overview-inner">
+      <div>
+        <span class="eyebrow" id="familyBadge"></span>
+        <h2 class="section-title" id="familyTitle"></h2>
+        <p class="section-text" id="familyText"></p>
+      </div>
+      <div class="family-grid" id="familyGrid"></div>
+    </div>
+  </section>
+
+  <section class="screen culture" id="culture">
+    <div class="culture-inner">
+      <div>
+        <span class="eyebrow" id="cultureBadge"></span>
+        <h2 class="section-title" id="cultureTitle"></h2>
+        <p class="section-text" id="cultureText"></p>
+      </div>
+      <div class="culture-grid" id="cultureGrid"></div>
+    </div>
+  </section>
+
+  <section id="itinerary"></section>
+</main>
+
+<footer class="footer">
+  <div>
+    <strong id="footerBrand"></strong>
+    <span id="footerText"></span>
+  </div>
+</footer>
 
 <script>
+// Função para codificar nomes de arquivos com espaços
+function encodeFileName(name) {
+  return name.replace(/ /g, '%20');
+}
+
+// Dados do roteiro com os nomes originais das imagens (vamos codificar na hora de usar)
 const routeDaysData = {
   fr: [
     {
@@ -233,19 +998,106 @@ const routeDaysData = {
       rhythm: "Repas ~25€",
       photoNames: ["dia 1 foto 1.jfif", "dia 1 foto 2.jfif", "dia 1 foto 3.jfif"],
       blocks: [
-        ["⛪ Culture & foi", "Sanctuaire de Tindari: mosaïques byzantines, Madone Noire et vue panoramique."],
-        ["🏖️ Nature & plage", "Laghetti di Marinello: eaux basses et chaudes, parfaites pour les enfants."]
+        ["⛪ Culture & foi", "Sanctuaire de Tindari: mosaïques byzantines, Madone Noire et vue panoramique sur le golfe.", "https://www.google.com/maps/search/?api=1&query=Santuario+di+Tindari+Madonna+Nera"],
+        ["🏖️ Nature & plage", "Laghetti di Marinello, à Oliveri. Eaux basses et chaudes, parfaites pour les enfants et les personnes âgées.", "https://www.google.com/maps/search/?api=1&query=Laghetti+di+Marinello+Oliveri"],
+        ["🍝 Gastronomie", "Trattoria locale. Dîner de bienvenue avec pâtes aux fruits de mer.", "https://www.google.com/maps/search/?api=1&query=Trattoria+Tindari+seafood"],
+        ["📜 Curiosité", "Les Laghetti di Marinello changent constamment de forme à cause des courants: il n'existe pas de contour fixe."],
+        ["🏛️ Repère historique", "Le Santuario di Tindari abrite la Madonna Nera, associée à des légendes de miracles depuis le Moyen Âge."],
+        ["🎭 Culture locale", "Mélange de tradition religieuse intense et de vie côtière simple."],
+        ["🍷 Vin de la région", "Mamertino DOC: vin historique, que Jules César aurait apprécié."],
+        ["🍽️ Cuisine typique", "Pâtes aux sardines, anchois frais, granita avec brioche au petit-déjeuner sicilien."]
       ]
     },
     {
       label: "Jour 2",
-      title: "Etna + Taormine",
+      title: "Etna + Alcantara + Taormine",
       distance: "~200 km",
-      rhythm: "Repas ~30€",
+      rhythm: "Repas ~30€, 4x4 35€, granita 5€",
       photoNames: ["dia 2 foto 1.jfif", "dia 2 foto 2.jfif", "dia 2 foto 3.jfif"],
       blocks: [
-        ["🌋 Volcan", "Crateri Silvestri, à 1 900 m. Montée accessible."],
-        ["🏛️ Histoire", "Théâtre antique de Taormine: ruines gréco-romaines avec vue sur l'Etna."]
+        ["🌋 Volcan actif", "Crateri Silvestri, à 1 900 m. Montée accessible. Option 4x4 pour les altitudes plus élevées.", "https://www.google.com/maps/search/?api=1&query=Crateri+Silvestri+Etna"],
+        ["🏞️ Géologie", "Gorges de l'Alcantara: colonnes basaltiques et parois de lave. Marche courte et sûre.", "https://www.google.com/maps/search/?api=1&query=Gole+dell+Alcantara"],
+        ["🏛️ Histoire", "Théâtre antique de Taormine: ruines gréco-romaines avec vue sur la mer et l'Etna.", "https://www.google.com/maps/search/?api=1&query=Teatro+Antico+Taormina"],
+        ["⛪ Culture", "Duomo de Taormine et églises baroques du centre historique.", "https://www.google.com/maps/search/?api=1&query=Duomo+di+Taormina"],
+        ["🍧 Granita & promenade", "Granita au Bam Bar, adresse iconique. Promenade sur le Corso Umberto.", "https://www.google.com/maps/search/?api=1&query=Bam+Bar+Taormina+Granita"],
+        ["📜 Curiosité", "L'Etna est l'un des volcans les plus actifs du monde et produit aussi certains des meilleurs vins d'Italie."],
+        ["🏛️ Repère historique", "Le Teatro Antico di Taormina a été construit par les Grecs puis adapté par les Romains: une histoire en couches."],
+        ["🎭 Culture locale", "Taormine est la Sicile raffinée: élite européenne, cinéma et tradition."],
+        ["🍷 Vins incontournables", "Etna Rosso DOC et Nerello Mascalese, cépage volcanique typique."],
+        ["🍽️ Cuisine typique", "Pasta alla Norma et cannoli, héritage arabo-sicilien."]
+      ]
+    },
+    {
+      label: "Jour 3",
+      title: "Montalbano & mégalithes d'Argimusco",
+      distance: "~90 km",
+      rhythm: "Repas ~25€, dégustation ~10€",
+      photoNames: ["dia 3 foto 1.jfif", "dia 3 foto 2.jfif", "dia 3 foto 3.jfif"],
+      blocks: [
+        ["🏰 Histoire", "Château médiéval de Montalbano Elicona, l'un des plus beaux villages d'Italie.", "https://www.google.com/maps/search/?api=1&query=Castello+di+Montalbano+Elicona"],
+        ["⛪ Culture & foi", "Église normande Santa Maria Assunta: art sacré et crypte médiévale.", "https://www.google.com/maps/search/?api=1&query=Santa+Maria+Assunta+Montalbano+Elicona"],
+        ["🗿 Expérience", "Plateau d'Argimusco: mégalithes mystérieux et formations rocheuses ancestrales.", "https://www.google.com/maps/search/?api=1&query=Argimusco+Megaliths+Sicily"],
+        ["🍝 Gastronomie", "Trattoria typique à Montalbano. Produits locaux et dégustation de vins.", "https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+ristorante+tipico"],
+        ["📜 Curiosité", "L'Argimusco est surnommé le Stonehenge de Sicile: des formations naturelles qui ressemblent à des sculptures humaines."],
+        ["🏛️ Repère historique", "Le Castello di Montalbano Elicona fut résidence de rois aragonais."],
+        ["🎭 Culture locale", "Vie rurale, traditions préservées et faible influence touristique."],
+        ["🍷 Vin de la région", "Faro DOC: moins connu, mais excellent."],
+        ["🍽️ Cuisine typique", "Fromages des Nebrodi, porc noir sicilien et champignons sauvages."]
+      ]
+    },
+    {
+      label: "Jour 4",
+      title: "Cefalù: cathédrale, art & plage",
+      distance: "~120 km",
+      rhythm: "Repas ~30€, lido 20€, cathédrale ~3€",
+      photoNames: ["dia 4 foto 1.jfif", "dia 4 foto 2.jfif", "dia 4 foto 3.jfif"],
+      blocks: [
+        ["🏛️ UNESCO", "Cathédrale normande de Cefalù: mosaïques byzantines, chef-d'œuvre au bord de la mer.", "https://www.google.com/maps/search/?api=1&query=Cattedrale+di+Cefal%C3%B9+UNESCO"],
+        ["🎨 Art", "Musée Mandralisca: collection d'art et d'archéologie, avec le Portrait d'un inconnu.", "https://www.google.com/maps/search/?api=1&query=Museo+Mandralisca+Cefalu"],
+        ["⛪ Histoire", "Lavatoio medievale: ancien lavoir public de l'époque normande.", "https://www.google.com/maps/search/?api=1&query=Lavatoio+Medievale+Cefalu"],
+        ["🏖️ Plage", "Plage de sable fin dans le centre historique, rare en Sicile. Lidos complets.", "https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Cefal%C3%B9+Sicily"],
+        ["📜 Curiosité", "La cathédrale aurait été construite par un roi normand après avoir survécu à une tempête."],
+        ["🏛️ Repère artistique", "La mosaïque du Pantocrator est l'une des plus impressionnantes d'Europe."],
+        ["🎭 Culture locale", "Mélange parfait de tourisme et d'authenticité."],
+        ["🍷 Vins de la région", "Grillo et Catarratto, deux blancs siciliens typiques."],
+        ["🍽️ Cuisine typique", "Arancini, poissons grillés et pâtes aux fruits de mer."]
+      ]
+    },
+    {
+      label: "Jour 5",
+      title: "Îles Éoliennes: Lipari",
+      distance: "Bateau",
+      rhythm: "Bateau ~25€, repas ~25€, tour ~30€",
+      photoNames: ["dia 5 foto 1.jfif", "dia 5 foto 2.jfif", "dia 5 foto 3.jfif"],
+      blocks: [
+        ["🏰 Histoire", "Château de Lipari: forteresse normande sur falaise, vue vers Vulcano.", "https://www.google.com/maps/search/?api=1&query=Castello+di+Lipari"],
+        ["🏺 Archéologie", "Musée éolien: découvertes archéologiques des îles et histoire volcanique.", "https://www.google.com/maps/search/?api=1&query=Museo+Archeologico+Eoliano+Lipari"],
+        ["⛪ Culture & foi", "Cathédrale San Bartolomeo et cloître normand. Trésor architectural.", "https://www.google.com/maps/search/?api=1&query=Cattedrale+San+Bartolomeo+Lipari"],
+        ["🍽️ Déjeuner", "Restaurant à Lipari, Marina Corta. Poissons frais et spécialités siciliennes.", "https://www.google.com/maps/search/?api=1&query=Lipari+Marina+Corta+restaurant"],
+        ["🚤 Expérience", "Après-midi libre: plage à Canneto ou tour en bateau vers Vulcano, grottes et paysages.", "https://www.google.com/maps/search/?api=1&query=Lipari+boat+tour+Vulcano"],
+        ["📜 Curiosité", "Dans la mythologie grecque, les îles Éoliennes étaient considérées comme la demeure d'Éole, dieu des vents."],
+        ["🏛️ Repère historique", "Le Castello di Lipari a été occupé par Grecs, Romains et Normands: une rare succession."],
+        ["🎭 Culture locale", "Vie maritime, rythme lent et identité propre."],
+        ["🍷 Vin unique", "Malvasia delle Lipari, douce et sophistiquée."],
+        ["🍽️ Cuisine typique", "Plats aux câpres, espadon et salades méditerranéennes fraîches."]
+      ]
+    },
+    {
+      label: "Jour 6",
+      title: "Capo d'Orlando: clôture",
+      distance: "~40 km",
+      rhythm: "Shopping variable, gala ~45€, lido ~15€",
+      photoNames: ["dia 6 foto 1.jfif", "dia 6 foto 2.jfif", "dia 6 foto 3.jfif"],
+      blocks: [
+        ["🏰 Culture", "Tour médiévale de Capo d'Orlando: belvédère historique avec vue sur les îles Éoliennes.", "https://www.google.com/maps/search/?api=1&query=Torre+Capo+d%27Orlando"],
+        ["🛍️ Shopping", "Marina de Capo d'Orlando: céramiques siciliennes, boutiques et artisanat local.", "https://www.google.com/maps/search/?api=1&query=Capo+d%27Orlando+Marina+Sicily"],
+        ["🏖️ Plage", "Dernière baignade à Capo d'Orlando, eaux cristallines et Lidos confortables.", "https://www.google.com/maps/search/?api=1&query=Spiaggia+Capo+d%27Orlando"],
+        ["🥂 Expérience", "Dîner de clôture au Ristorante Donna Villa, à Patti. Toast final avec vue vers les Éoliennes.", "https://www.google.com/maps/search/?api=1&query=Ristorante+Donna+Villa+Patti"],
+        ["📜 Curiosité", "Le nom Capo d'Orlando vient de la légende d'Orlando, chevalier médiéval."],
+        ["🎭 Culture locale", "Ville vivante, moins touristique et plus authentique."],
+        ["🛍️ Artisanat", "Céramiques siciliennes, mélange d'influences arabes et baroques."],
+        ["🍷 Vin de la région", "Nero d'Avola, le rouge le plus célèbre de Sicile."],
+        ["🍽️ Cuisine typique", "Caponata et cassata sicilienne, dessert classique."]
       ]
     }
   ],
@@ -257,75 +1109,389 @@ const routeDaysData = {
       rhythm: "Refeição ~25€",
       photoNames: ["dia 1 foto 1.jfif", "dia 1 foto 2.jfif", "dia 1 foto 3.jfif"],
       blocks: [
-        ["⛪ Cultura & Fé", "Santuário de Tindari: mosaicos bizantinos, Madona Negra e vista panorâmica."],
-        ["🏖️ Natureza & Praia", "Laghetti di Marinello: águas rasas e quentes, ideais para famílias."]
+        ["⛪ Cultura & Fé", "Santuário de Tindari: mosaicos bizantinos, Madona Negra e vista panorâmica do golfo.", "https://www.google.com/maps/search/?api=1&query=Santuario+di+Tindari+Madonna+Nera"],
+        ["🏖️ Natureza & Praia", "Laghetti di Marinello, em Oliveri. Águas rasas e quentes, perfeitas para crianças e idosos.", "https://www.google.com/maps/search/?api=1&query=Laghetti+di+Marinello+Oliveri"],
+        ["🍝 Gastronomia", "Trattoria local. Jantar de boas-vindas com massas de frutos do mar.", "https://www.google.com/maps/search/?api=1&query=Trattoria+Tindari+seafood"],
+        ["📜 Curiosidade", "A Laghetti di Marinello muda de formato constantemente por causa das correntes: não existe igual fixo."],
+        ["🏛️ Marco histórico", "O Santuario di Tindari guarda a Madonna Nera, ligada a lendas de milagres desde a Idade Média."],
+        ["🎭 Cultura local", "Mistura de tradição religiosa intensa com vida costeira simples."],
+        ["🍷 Vinho da região", "Mamertino DOC: vinho histórico, dizem que Júlio César bebia."],
+        ["🍽️ Comida típica", "Pasta com sardinha, anchovas frescas, granita com brioche no café da manhã siciliano clássico."]
       ]
     },
     {
       label: "Dia 2",
-      title: "Etna + Taormina",
+      title: "Etna + Alcantara + Taormina",
       distance: "~200 km",
-      rhythm: "Refeição ~30€",
+      rhythm: "Refeição ~30€, 4x4 opcional 35€, granita 5€",
       photoNames: ["dia 2 foto 1.jfif", "dia 2 foto 2.jfif", "dia 2 foto 3.jfif"],
       blocks: [
-        ["🌋 Vulcão", "Crateras Silvestri a 1.900m. Subida acessível."],
-        ["🏛️ História", "Teatro Antigo de Taormina: ruínas com vista para o vulcão."]
+        ["🌋 Vulcão Ativo", "Crateri Silvestri, a 1 900 m. Subida acessível. Opcional 4x4 para cotas mais altas.", "https://www.google.com/maps/search/?api=1&query=Crateri+Silvestri+Etna"],
+        ["🏞️ Geologia", "Garganta do Alcantara: colunas basálticas, paredões de lava. Caminhada curta e segura.", "https://www.google.com/maps/search/?api=1&query=Gole+dell+Alcantara"],
+        ["🏛️ História", "Teatro Antigo de Taormina: ruínas greco-romanas com vista para o mar e o Etna.", "https://www.google.com/maps/search/?api=1&query=Teatro+Antico+Taormina"],
+        ["⛪ Cultura", "Duomo de Taormina e igrejas barrocas no centro histórico.", "https://www.google.com/maps/search/?api=1&query=Duomo+di+Taormina"],
+        ["🍧 Granita & Passeio", "Granita no Bam Bar, local icônico. Passeio pelo Corso Umberto.", "https://www.google.com/maps/search/?api=1&query=Bam+Bar+Taormina+Granita"],
+        ["📜 Curiosidade", "O Monte Etna é um dos vulcões mais ativos do mundo e, ao mesmo tempo, produz alguns dos melhores vinhos da Itália."],
+        ["🏛️ Marco histórico", "O Teatro Antico di Taormina foi construído pelos gregos e adaptado pelos romanos: história em camadas."],
+        ["🎭 Cultura local", "Taormina é a Sicília refinada: mistura de elite europeia, cinema e tradição."],
+        ["🍷 Vinhos imperdíveis", "Etna Rosso DOC, mineral e elegante, e Nerello Mascalese, uva típica vulcânica."],
+        ["🍽️ Comida típica", "Pasta alla Norma, com berinjela e ricota salgada, e cannoli de origem árabe-siciliana."]
+      ]
+    },
+    {
+      label: "Dia 3",
+      title: "Montalbano & Megálitos de Argimusco",
+      distance: "~90 km",
+      rhythm: "Refeição ~25€, degustação vinhos ~10€",
+      photoNames: ["dia 3 foto 1.jfif", "dia 3 foto 2.jfif", "dia 3 foto 3.jfif"],
+      blocks: [
+        ["🏰 História", "Castelo medieval de Montalbano Elicona: um dos mais belos vilarejos da Itália.", "https://www.google.com/maps/search/?api=1&query=Castello+di+Montalbano+Elicona"],
+        ["⛪ Cultura & Fé", "Igreja normanda Santa Maria Assunta: arte sacra e cripta medieval.", "https://www.google.com/maps/search/?api=1&query=Santa+Maria+Assunta+Montalbano+Elicona"],
+        ["🗿 Experiência", "Plateau de Argimusco: megálitos misteriosos, formações rochosas ancestrais.", "https://www.google.com/maps/search/?api=1&query=Argimusco+Megaliths+Sicily"],
+        ["🍝 Gastronomia", "Trattoria típica em Montalbano. Produtos locais e degustação de vinhos.", "https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+ristorante+tipico"],
+        ["📜 Curiosidade", "O Argimusco é chamado de Stonehenge da Sicília: formações naturais que parecem esculturas humanas."],
+        ["🏛️ Marco histórico", "Castello di Montalbano Elicona foi residência de reis aragoneses."],
+        ["🎭 Cultura local", "Vida rural, tradições preservadas e pouca influência turística."],
+        ["🍷 Vinho da região", "Faro DOC: menos conhecido, mas excelente."],
+        ["🍽️ Comida típica", "Queijos dos Nebrodi, porco preto siciliano e cogumelos selvagens."]
+      ]
+    },
+    {
+      label: "Dia 4",
+      title: "Cefalù: Catedral, Arte & Praia",
+      distance: "~120 km",
+      rhythm: "Refeição ~30€, lido 20€, catedral ~3€",
+      photoNames: ["dia 4 foto 1.jfif", "dia 4 foto 2.jfif", "dia 4 foto 3.jfif"],
+      blocks: [
+        ["🏛️ UNESCO", "Catedral normanda de Cefalù: mosaicos bizantinos, obra-prima à beira-mar.", "https://www.google.com/maps/search/?api=1&query=Cattedrale+di+Cefal%C3%B9+UNESCO"],
+        ["🎨 Arte", "Museu Mandralisca: coleção de arte e arqueologia, Retrato de um Desconhecido.", "https://www.google.com/maps/search/?api=1&query=Museo+Mandralisca+Cefalu"],
+        ["⛪ História", "Lavatório medieval: lavadouro público da época normanda.", "https://www.google.com/maps/search/?api=1&query=Lavatoio+Medievale+Cefalu"],
+        ["🏖️ Praia", "Praia de areia fina no centro histórico, rara na Sicília. Lidos completos.", "https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Cefal%C3%B9+Sicily"],
+        ["📜 Curiosidade", "A Cattedrale di Cefalù foi construída por um rei normando como promessa após sobreviver a uma tempestade."],
+        ["🏛️ Marco histórico/artístico", "O mosaico do Pantocrator é um dos mais impressionantes da Europa."],
+        ["🎭 Cultura local", "Mistura perfeita de turismo e autenticidade."],
+        ["🍷 Vinhos da região", "Grillo e Catarratto: brancos típicos sicilianos."],
+        ["🍽️ Comida típica", "Arancini, peixes grelhados e pasta com frutos do mar."]
+      ]
+    },
+    {
+      label: "Dia 5",
+      title: "Ilhas Eólias: Lipari",
+      distance: "Barco",
+      rhythm: "Barco ~25€, refeição ~25€, tour opcional ~30€",
+      photoNames: ["dia 5 foto 1.jfif", "dia 5 foto 2.jfif", "dia 5 foto 3.jfif"],
+      blocks: [
+        ["🏰 História", "Castelo de Lipari: fortaleza normanda sobre penhasco, vista para Vulcano.", "https://www.google.com/maps/search/?api=1&query=Castello+di+Lipari"],
+        ["🏺 Arqueologia", "Museu Eólio: achados arqueológicos das ilhas, história vulcânica.", "https://www.google.com/maps/search/?api=1&query=Museo+Archeologico+Eoliano+Lipari"],
+        ["⛪ Cultura & Fé", "Catedral San Bartolomeo e claustro normando. Tesouro arquitetônico.", "https://www.google.com/maps/search/?api=1&query=Cattedrale+San+Bartolomeo+Lipari"],
+        ["🍽️ Almoço", "Restaurante em Lipari, Marina Corta. Peixes frescos e especialidades sicilianas.", "https://www.google.com/maps/search/?api=1&query=Lipari+Marina+Corta+restaurant"],
+        ["🚤 Experiência", "Tarde livre: praia em Canneto ou tour de barco para ver Vulcano, grutas e paisagens.", "https://www.google.com/maps/search/?api=1&query=Lipari+boat+tour+Vulcano"],
+        ["📜 Curiosidade", "As Isole Eolie eram consideradas na mitologia grega o lar de Éolo, deus dos ventos."],
+        ["🏛️ Marco histórico", "Castello di Lipari foi ocupado por gregos, romanos e normandos: sequência rara."],
+        ["🎭 Cultura local", "Vida marítima, ritmo lento e identidade própria."],
+        ["🍷 Vinho único", "Malvasia delle Lipari: doce e sofisticado."],
+        ["🍽️ Comida típica", "Pratos com alcaparras, peixe espada e saladas mediterrâneas frescas."]
+      ]
+    },
+    {
+      label: "Dia 6",
+      title: "Capo d'Orlando: Encerramento",
+      distance: "~40 km",
+      rhythm: "Compras variável, jantar gala ~45€, lido ~15€",
+      photoNames: ["dia 6 foto 1.jfif", "dia 6 foto 2.jfif", "dia 6 foto 3.jfif"],
+      blocks: [
+        ["🏰 Cultura", "Torre medieval de Capo d'Orlando: mirante histórico com vista das Ilhas Eólias.", "https://www.google.com/maps/search/?api=1&query=Torre+Capo+d%27Orlando"],
+        ["🛍️ Shopping", "Marina de Capo d'Orlando: cerâmicas sicilianas, boutiques e artesanato local.", "https://www.google.com/maps/search/?api=1&query=Capo+d%27Orlando+Marina+Sicily"],
+        ["🏖️ Praia", "Último banho de mar em Capo d'Orlando, águas cristalinas e Lidos confortáveis.", "https://www.google.com/maps/search/?api=1&query=Spiaggia+Capo+d%27Orlando"],
+        ["🥂 Experiência", "Jantar de encerramento no Ristorante Donna Villa, em Patti. Brinde final com vista para as Eólias.", "https://www.google.com/maps/search/?api=1&query=Ristorante+Donna+Villa+Patti"],
+        ["📜 Curiosidade", "O nome Capo d'Orlando vem da lenda de Orlando, cavaleiro medieval."],
+        ["🎭 Cultura local", "Cidade viva, menos turística e mais autêntica."],
+        ["🛍️ Artesanato", "Cerâmicas sicilianas: mistura de influência árabe e barroca."],
+        ["🍷 Vinho da região", "Nero d'Avola: o tinto mais famoso da Sicília."],
+        ["🍽️ Comida típica", "Caponata, berinjela agridoce, e cassata siciliana, sobremesa clássica."]
       ]
     }
   ]
 };
 
-let currentLang = "fr";
+const content = {
+  fr: {
+    ui: {
+      heroBadge: "Sicile · 7 jours · voyage en famille",
+      heroTitle: "Tindari <span>Experience</span>",
+      heroCopy: "Un itinéraire plein écran en Sicile: plages faciles, villages historiques, Etna, Taormine et îles Éoliennes, avec un rythme confortable pour toutes les générations.",
+      heroCta: "Voir les journées",
+      familyCta: "Conseils famille",
+      cultureCta: "Conseils culture",
+      menuHome: "Accueil",
+      menuFamily: "Famille",
+      menuCulture: "Culture",
+      menuRoute: "Jours",
+      weatherKicker: "Météo en direct",
+      weatherWind: "Vent",
+      weatherRain: "Pluie",
+      weatherMax: "Max.",
+      weatherNote: "Température actuelle via Open-Meteo. Les moyennes d'août sont indiquées ci-dessous.",
+      weatherFallback: "Météo indisponible. En août, prévoyez 26° le matin, 32° l'après-midi et 22° la nuit.",
+      familyBadge: "Voyager avec enfants, parents et grands-parents",
+      familyTitle: "Un rythme doux, mais jamais vide.",
+      familyText: "Les journées alternent un moment fort, un repas simple à organiser et une pause proche de la mer. Le voyage reste beau sans devenir une course.",
+      cultureBadge: "Repères culturels",
+      cultureTitle: "Les histoires à raconter pendant le trajet.",
+      cultureText: "Quelques clés simples pour donner du sens aux visites sans transformer les vacances en cours magistral.",
+      swipe: "Glisser les photos",
+      map: "Voir la carte",
+      footerBrand: "Tindari · Culture, mer & famille",
+      footerText: "Itinéraire visuel de 7 jours en Sicile, pensé pour partager de bons moments sans épuiser le groupe."
+    },
+    familyTips: [
+      ["01", "Réserver les Lidos", "Pour les journées plage, réservez transats et parasols à l'avance. C'est plus confortable pour les enfants et les aînés."],
+      ["02", "Un temps fort par jour", "Gardez une grande visite quotidienne, puis laissez de la place aux pauses, glaces, cafés et baignades."],
+      ["03", "Départs tôt, retours souples", "Les visites sont plus agréables le matin. L'après-midi peut rester libre pour repos ou piscine."],
+      ["04", "Prévoir les accès", "Vérifiez navettes, parkings, escaliers et toilettes avant les sites historiques, surtout à Taormine, Tindari et Lipari."]
+    ],
+    cultureTips: [
+      ["Tindari", "Madone Noire & théâtre grec", "Commencez par le sanctuaire, puis le théâtre: la vue sur les lagunes aide tout le monde à comprendre pourquoi ce site était stratégique."],
+      ["Cefalù", "Normands, mosaïques et bord de mer", "La cathédrale raconte le mélange arabe, byzantin et normand. Le Lavatoio Medievale est une pause courte et facile avec les enfants."],
+      ["Argimusco", "Pierres, légendes et Etna", "Présentez les rochers comme un paysage d'observation et de mythes. La visite fonctionne très bien en version courte."],
+      ["Taormine", "Théâtre antique vivant", "Au théâtre, cherchez ensemble la scène, les gradins et l'Etna au fond: c'est le meilleur résumé de la Sicile en une seule image."],
+      ["Lipari", "Îles Éoliennes", "Le château de Lipari donne un contexte clair sur les routes maritimes. Prévoyez ensuite une pause libre à Marina Corta."]
+    ],
+    days: routeDaysData.fr
+  },
+  pt: {
+    ui: {
+      heroBadge: "Sicília · 7 dias · viagem em família",
+      heroTitle: "Tindari <span>Experience</span>",
+      heroCopy: "Um roteiro em tela cheia pela Sicília: praias fáceis, vilas históricas, Etna, Taormina e Ilhas Eólias, com ritmo confortável para todas as gerações.",
+      heroCta: "Ver os dias",
+      familyCta: "Dicas família",
+      cultureCta: "Dicas culturais",
+      menuHome: "Início",
+      menuFamily: "Família",
+      menuCulture: "Cultura",
+      menuRoute: "Dias",
+      weatherKicker: "Tempo ao vivo",
+      weatherWind: "Vento",
+      weatherRain: "Chuva",
+      weatherMax: "Máx.",
+      weatherNote: "Temperatura atual via Open-Meteo. As médias de agosto estão abaixo.",
+      weatherFallback: "Tempo indisponível. Em agosto, espere 26° pela manhã, 32° à tarde e 22° à noite.",
+      familyBadge: "Viajando com crianças, pais e avós",
+      familyTitle: "Ritmo leve, mas cheio de momentos bons.",
+      familyText: "Os dias alternam uma atração principal, uma refeição fácil de organizar e uma pausa perto do mar. A viagem fica bonita sem virar corrida.",
+      cultureBadge: "Dicas culturais",
+      cultureTitle: "Histórias boas para contar no caminho.",
+      cultureText: "Algumas chaves simples para dar sentido às visitas sem transformar as férias em aula.",
+      swipe: "Deslize as fotos",
+      map: "Ver no mapa",
+      footerBrand: "Tindari · Cultura, mar & família",
+      footerText: "Roteiro visual de 7 dias na Sicília, pensado para compartilhar bons momentos sem cansar o grupo."
+    },
+    familyTips: [
+      ["01", "Reserve os Lidos", "Para dias de praia, reserve cadeiras e guarda-sóis com antecedência. É mais confortável para crianças e idosos."],
+      ["02", "Uma atração principal por dia", "Mantenha uma grande visita diária e deixe espaço para pausas, sorvetes, cafés e banhos de mar."],
+      ["03", "Saídas cedo, voltas flexíveis", "As visitas rendem melhor de manhã. A tarde pode ficar livre para descanso ou piscina."],
+      ["04", "Cheque os acessos", "Verifique vans, estacionamentos, escadas e banheiros antes dos pontos históricos, especialmente Taormina, Tindari e Lipari."]
+    ],
+    cultureTips: [
+      ["Tindari", "Madonna Nera & Teatro Grego", "Comece pelo santuário e depois vá ao teatro: a vista para as lagoas ajuda todos a entenderem por que o lugar era estratégico."],
+      ["Cefalù", "Normandos, mosaicos e mar", "A catedral mostra a mistura árabe, bizantina e normanda. O Lavatoio Medievale é uma parada curta e fácil com crianças."],
+      ["Argimusco", "Pedras, lendas e Etna", "Apresente as rochas como uma paisagem de observação e mitos. A visita funciona muito bem em versão curta."],
+      ["Taormina", "Teatro antigo vivo", "No teatro, procurem juntos o palco, as arquibancadas e o Etna ao fundo: é o melhor resumo da Sicília em uma imagem."],
+      ["Lipari", "Ilhas Eólias", "O castelo de Lipari dá contexto sobre as rotas marítimas. Depois, deixe uma pausa livre em Marina Corta."]
+    ],
+    days: routeDaysData.pt
+  }
+};
 
-function render() {
-  const container = document.getElementById("itinerary");
-  const data = routeDaysData[currentLang];
-  
-  container.innerHTML = data.map((day, idx) => `
-    <article class="day" id="jour-${idx+1}">
-      <div class="photo-carousel">
+const augustAverages = {
+  fr: [
+    { label: "Matin", temp: "26°" },
+    { label: "Après-midi", temp: "32°" },
+    { label: "Nuit", temp: "22°" }
+  ],
+  pt: [
+    { label: "Manhã", temp: "26°" },
+    { label: "Tarde", temp: "32°" },
+    { label: "Noite", temp: "22°" }
+  ]
+};
+
+const weatherCodes = {
+  fr: {
+    0: "Ciel clair", 1: "Plutôt clair", 2: "Partiellement nuageux", 3: "Nuageux",
+    45: "Brouillard", 48: "Brouillard givrant", 51: "Bruine légère", 53: "Bruine", 55: "Bruine forte",
+    61: "Pluie légère", 63: "Pluie", 65: "Forte pluie", 71: "Neige légère", 80: "Averses", 95: "Orage"
+  },
+  pt: {
+    0: "Céu limpo", 1: "Poucas nuvens", 2: "Parcialmente nublado", 3: "Nublado",
+    45: "Nevoeiro", 48: "Nevoeiro gelado", 51: "Garoa leve", 53: "Garoa", 55: "Garoa forte",
+    61: "Chuva leve", 63: "Chuva", 65: "Chuva forte", 71: "Neve leve", 80: "Pancadas", 95: "Temporal"
+  }
+};
+
+let lang = "fr";
+
+function el(id) { return document.getElementById(id); }
+function cleanBlockLabel(label) { return label.replace(/^[^\p{L}\p{N}]+/u, "").trim(); }
+function encodeFileName(name) { return name.replace(/ /g, '%20'); }
+
+function renderStaticText() {
+  const data = content[lang];
+  document.documentElement.lang = lang === "fr" ? "fr" : "pt-BR";
+  el("heroBadge").textContent = data.ui.heroBadge;
+  el("heroTitle").innerHTML = data.ui.heroTitle;
+  el("heroCopy").textContent = data.ui.heroCopy;
+  el("heroCta").textContent = data.ui.heroCta;
+  el("familyCta").textContent = data.ui.familyCta;
+  el("cultureCta").textContent = data.ui.cultureCta;
+  el("menuHome").textContent = data.ui.menuHome;
+  el("menuFamily").textContent = data.ui.menuFamily;
+  el("menuCulture").textContent = data.ui.menuCulture;
+  el("menuRoute").textContent = data.ui.menuRoute;
+  el("weatherKicker").textContent = data.ui.weatherKicker;
+  el("weatherWindLabel").textContent = data.ui.weatherWind;
+  el("weatherRainLabel").textContent = data.ui.weatherRain;
+  el("weatherMaxLabel").textContent = data.ui.weatherMax;
+  el("weatherNote").textContent = data.ui.weatherNote;
+  el("familyBadge").textContent = data.ui.familyBadge;
+  el("familyTitle").textContent = data.ui.familyTitle;
+  el("familyText").textContent = data.ui.familyText;
+  el("cultureBadge").textContent = data.ui.cultureBadge;
+  el("cultureTitle").textContent = data.ui.cultureTitle;
+  el("cultureText").textContent = data.ui.cultureText;
+  el("footerBrand").textContent = data.ui.footerBrand;
+  el("footerText").textContent = data.ui.footerText;
+}
+
+function renderFamilyTips() {
+  el("familyGrid").innerHTML = content[lang].familyTips.map(([number, title, text]) => `
+    <article class="family-tip">
+      <span>${number}</span>
+      <strong>${title}</strong>
+      <p>${text}</p>
+    </article>`).join("");
+}
+
+function renderCultureTips() {
+  el("cultureGrid").innerHTML = content[lang].cultureTips.map(([place, title, text]) => `
+    <article class="culture-tip">
+      <span>${place}</span>
+      <strong>${title}</strong>
+      <p>${text}</p>
+    </article>`).join("");
+}
+
+function renderWeatherDays() {
+  const avg = augustAverages[lang];
+  el("weatherDays").innerHTML = avg.map(item => `
+    <div class="weather-day">
+      <span>${item.label}</span>
+      <strong>${item.temp}</strong>
+      <small>média ago.</small>
+    </div>`).join("");
+}
+
+function renderDays() {
+  const data = content[lang];
+  el("itinerary").innerHTML = data.days.map((day, index) => `
+    <article class="screen day" id="jour-${index + 1}">
+      <div class="photo-carousel" data-carousel>
         <div class="slides">
-          ${day.photoNames.map(img => `
-            <div class="slide">
-              <img src="${img.replace(/ /g, '%20')}" alt="Sicilia" onerror="this.src='https://images.unsplash.com/photo-1533106497176-45ae19e68ba2?auto=format&fit=crop&w=800'">
-            </div>
-          `).join('')}
+          ${day.photoNames.map((photo, i) => `
+            <figure class="slide">
+              <img src="${encodeFileName(photo)}" alt="${day.title} - ${i+1}" loading="${index === 0 ? "eager" : "lazy"}" onerror="this.parentElement.style.background='linear-gradient(135deg, #2a4a55, #1a353e)'; this.style.opacity='0.5'">
+            </figure>`).join("")}
+        </div>
+        <div class="swipe-hint">${data.ui.swipe}</div>
+        <div class="photo-controls">
+          <button class="photo-btn" data-direction="-1">‹</button>
+          <button class="photo-btn" data-direction="1">›</button>
         </div>
       </div>
       <div class="day-panel">
-        <div class="day-content-wrapper">
-          <span class="day-label">${day.label}</span>
+        <div>
+          <div class="day-label">${day.label}</div>
           <h2 class="day-title">${day.title}</h2>
-          <div style="margin-bottom: 2rem;">
-            <span class="badge">${day.distance}</span>
-            <span class="badge">${day.rhythm}</span>
-          </div>
-          <div class="blocks">
-            ${day.blocks.map(b => `
-              <div class="block">
-                <div class="block-label">${b[0]}</div>
-                <p class="block-text">${b[1]}</p>
-              </div>
-            `).join('')}
-          </div>
+        </div>
+        <div class="day-meta">
+          <span class="badge">${day.distance}</span>
+          <span class="badge">${day.rhythm}</span>
+        </div>
+        <div class="blocks">
+          ${day.blocks.map(([label, text, map]) => `
+            <div class="block">
+              <div class="block-label">${cleanBlockLabel(label)}</div>
+              <p class="block-text">${text}</p>
+              ${map ? `<a class="map-link" href="${map}" target="_blank" rel="noopener">${data.ui.map}</a>` : ""}
+            </div>`).join("")}
         </div>
       </div>
-    </article>
-  `).join('');
+    </article>`).join("");
 }
 
-document.getElementById("langSwitch").addEventListener("click", (e) => {
-  if(e.target.dataset.lang) {
-    currentLang = e.target.dataset.lang;
-    document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("active", b.dataset.lang === currentLang));
-    render();
+function renderLangButtons() {
+  document.querySelectorAll(".lang-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.lang === lang));
+}
+
+function bindCarouselButtons() {
+  document.querySelectorAll("[data-carousel]").forEach(carousel => {
+    const slides = carousel.querySelector(".slides");
+    carousel.querySelectorAll(".photo-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        slides.scrollBy({ left: Number(btn.dataset.direction) * slides.clientWidth, behavior: "smooth" });
+      });
+    });
+  });
+}
+
+async function loadWeather() {
+  const data = content[lang];
+  try {
+    const url = "https://api.open-meteo.com/v1/forecast?latitude=38.1407&longitude=15.0434&current=temperature_2m,weather_code,wind_speed_10m,precipitation_probability&timezone=Europe%2FRome";
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Weather request failed");
+    const json = await res.json();
+    const cur = json.current;
+    const cond = weatherCodes[lang][cur.weather_code] || (lang === "fr" ? "Météo variable" : "Tempo variável");
+    el("weatherTemp").textContent = `${Math.round(cur.temperature_2m)}°`;
+    el("weatherWind").textContent = `${Math.round(cur.wind_speed_10m)} km/h`;
+    el("weatherRain").textContent = `${cur.precipitation_probability || 0}%`;
+    el("weatherMax").textContent = `${Math.round(cur.temperature_2m + 6)}°`;
+    el("weatherNote").textContent = `${cond}. ${data.ui.weatherNote}`;
+  } catch {
+    el("weatherTemp").textContent = "26°";
+    el("weatherWind").textContent = "12 km/h";
+    el("weatherRain").textContent = "10%";
+    el("weatherMax").textContent = "32°";
+    el("weatherNote").textContent = data.ui.weatherFallback;
   }
+}
+
+function render() {
+  renderStaticText();
+  renderFamilyTips();
+  renderCultureTips();
+  renderWeatherDays();
+  renderDays();
+  renderLangButtons();
+  bindCarouselButtons();
+  loadWeather();
+}
+
+el("langSwitch").addEventListener("click", e => {
+  const btn = e.target.closest(".lang-btn");
+  if (!btn) return;
+  lang = btn.dataset.lang;
+  render();
 });
 
-// Efeito de scroll para a barra de navegação
-window.addEventListener("scroll", () => {
-  document.body.classList.toggle("scrolled", window.scrollY > 50);
-});
+function updateScrolledState() {
+  document.body.classList.toggle("scrolled", window.scrollY > 24);
+}
+window.addEventListener("scroll", updateScrolledState, { passive: true });
+updateScrolledState();
 
 render();
 </script>
