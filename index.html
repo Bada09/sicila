@@ -82,7 +82,6 @@ a { color: inherit; }
   align-items: center;
   gap: 1rem;
   pointer-events: none;
-  /* ===== NOVO: transição para desaparecer ao scroll ===== */
   opacity: 1;
   transition: opacity 0.35s ease, transform 0.35s ease;
 }
@@ -99,7 +98,6 @@ a { color: inherit; }
   pointer-events: none;
 }
 
-/* ===== NOVO: quando a página rola, a topbar some ===== */
 body.scrolled .topbar {
   opacity: 0;
   pointer-events: none;
@@ -174,7 +172,6 @@ body.scrolled .topbar {
   transition: color 0.2s ease, background 0.2s ease;
 }
 
-/* mantido o sumiço extra do seletor de idioma, mesmo já incluso no sumiço da topbar */
 body.scrolled .lang-switch {
   opacity: 0;
   visibility: hidden;
@@ -989,12 +986,12 @@ const content = {
       menuFamily: "Famille",
       menuCulture: "Culture",
       menuRoute: "Jours",
-      weatherKicker: "Prévision météo",
+      weatherKicker: "Météo en direct",
       weatherWind: "Vent",
       weatherRain: "Pluie",
       weatherMax: "Max.",
-      weatherNote: "Prévision en direct via Open-Meteo pour la région de Tindari. Vérifiez aussi la mer et les bateaux avant Lipari.",
-      weatherFallback: "Météo indisponible maintenant. Prévoir chapeau, eau, chaussures confortables et une couche légère pour l'Etna.",
+      weatherNote: "Température actuelle via Open-Meteo. Les moyennes d'août sont indiquées ci-dessous.",
+      weatherFallback: "Météo indisponible. En août, prévoyez 26° le matin, 32° l'après-midi et 22° la nuit.",
       familyBadge: "Voyager avec enfants, parents et grands-parents",
       familyTitle: "Un rythme doux, mais jamais vide.",
       familyText: "Les journées alternent un moment fort, un repas simple à organiser et une pause proche de la mer. Le voyage reste beau sans devenir une course.",
@@ -1117,12 +1114,12 @@ const content = {
       menuFamily: "Família",
       menuCulture: "Cultura",
       menuRoute: "Dias",
-      weatherKicker: "Previsão do tempo",
+      weatherKicker: "Tempo ao vivo",
       weatherWind: "Vento",
       weatherRain: "Chuva",
       weatherMax: "Máx.",
-      weatherNote: "Previsão ao vivo via Open-Meteo para a região de Tindari. Confira também mar e barcos antes de Lipari.",
-      weatherFallback: "Clima indisponível agora. Leve chapéu, água, calçado confortável e uma camada leve para o Etna.",
+      weatherNote: "Temperatura atual via Open-Meteo. As médias de agosto estão abaixo.",
+      weatherFallback: "Tempo indisponível. Em agosto, espere 26° pela manhã, 32° à tarde e 22° à noite.",
       familyBadge: "Viajando com crianças, pais e avós",
       familyTitle: "Ritmo leve, mas cheio de momentos bons.",
       familyText: "Os dias alternam uma atração principal, uma refeição fácil de organizar e uma pausa perto do mar. A viagem fica bonita sem virar corrida.",
@@ -1235,240 +1232,19 @@ const content = {
   }
 };
 
-const routeDays = {
+// Médias de temperatura para agosto (manhã, tarde, noite)
+const augustAverages = {
   fr: [
-    {
-      label: "Jour 1",
-      title: "Tindari + Laghetti di Marinello",
-      distance: "~15 km",
-      rhythm: "Repas ~25€",
-      photos: ["dia 1 foto 1.jfif", "dia 1 foto 2.jfif", "dia 1 foto 3.jfif"],
-      blocks: [
-        ["⛪ Culture & foi", "Sanctuaire de Tindari: mosaïques byzantines, Madone Noire et vue panoramique sur le golfe.", "https://www.google.com/maps/search/?api=1&query=Santuario+di+Tindari+Madonna+Nera"],
-        ["🏖️ Nature & plage", "Laghetti di Marinello, à Oliveri. Eaux basses et chaudes, parfaites pour les enfants et les personnes âgées.", "https://www.google.com/maps/search/?api=1&query=Laghetti+di+Marinello+Oliveri"],
-        ["🍝 Gastronomie", "Trattoria locale. Dîner de bienvenue avec pâtes aux fruits de mer.", "https://www.google.com/maps/search/?api=1&query=Trattoria+Tindari+seafood"],
-        ["📜 Curiosité", "Les Laghetti di Marinello changent constamment de forme à cause des courants: il n'existe pas de contour fixe."],
-        ["🏛️ Repère historique", "Le Santuario di Tindari abrite la Madonna Nera, associée à des légendes de miracles depuis le Moyen Âge."],
-        ["🎭 Culture locale", "Mélange de tradition religieuse intense et de vie côtière simple."],
-        ["🍷 Vin de la région", "Mamertino DOC: vin historique, que Jules César aurait apprécié."],
-        ["🍽️ Cuisine typique", "Pâtes aux sardines, anchois frais, granita avec brioche au petit-déjeuner sicilien."]
-      ]
-    },
-    {
-      label: "Jour 2",
-      title: "Etna + Alcantara + Taormine",
-      distance: "~200 km",
-      rhythm: "Repas ~30€, 4x4 35€, granita 5€",
-      photos: ["dia 5 foto 1.jfif", "dia 5 foto 2.jfif", "dia 5 foto 3.jfif"],
-      blocks: [
-        ["🌋 Volcan actif", "Crateri Silvestri, à 1 900 m. Montée accessible. Option 4x4 pour les altitudes plus élevées.", "https://www.google.com/maps/search/?api=1&query=Crateri+Silvestri+Etna"],
-        ["🏞️ Géologie", "Gorges de l'Alcantara: colonnes basaltiques et parois de lave. Marche courte et sûre.", "https://www.google.com/maps/search/?api=1&query=Gole+dell+Alcantara"],
-        ["🏛️ Histoire", "Théâtre antique de Taormine: ruines gréco-romaines avec vue sur la mer et l'Etna.", "https://www.google.com/maps/search/?api=1&query=Teatro+Antico+Taormina"],
-        ["⛪ Culture", "Duomo de Taormine et églises baroques du centre historique.", "https://www.google.com/maps/search/?api=1&query=Duomo+di+Taormina"],
-        ["🍧 Granita & promenade", "Granita au Bam Bar, adresse iconique. Promenade sur le Corso Umberto.", "https://www.google.com/maps/search/?api=1&query=Bam+Bar+Taormina+Granita"],
-        ["📜 Curiosité", "L'Etna est l'un des volcans les plus actifs du monde et produit aussi certains des meilleurs vins d'Italie."],
-        ["🏛️ Repère historique", "Le Teatro Antico di Taormina a été construit par les Grecs puis adapté par les Romains: une histoire en couches."],
-        ["🎭 Culture locale", "Taormine est la Sicile raffinée: élite européenne, cinéma et tradition."],
-        ["🍷 Vins incontournables", "Etna Rosso DOC et Nerello Mascalese, cépage volcanique typique."],
-        ["🍽️ Cuisine typique", "Pasta alla Norma et cannoli, héritage arabo-sicilien."]
-      ]
-    },
-    {
-      label: "Jour 3",
-      title: "Montalbano & mégalithes d'Argimusco",
-      distance: "~90 km",
-      rhythm: "Repas ~25€, dégustation ~10€",
-      photos: ["dia 4 foto 1.jfif", "dia 4 foto 2.jfif", "dia 4 foto 3.jfif"],
-      blocks: [
-        ["🏰 Histoire", "Château médiéval de Montalbano Elicona, l'un des plus beaux villages d'Italie.", "https://www.google.com/maps/search/?api=1&query=Castello+di+Montalbano+Elicona"],
-        ["⛪ Culture & foi", "Église normande Santa Maria Assunta: art sacré et crypte médiévale.", "https://www.google.com/maps/search/?api=1&query=Santa+Maria+Assunta+Montalbano+Elicona"],
-        ["🗿 Expérience", "Plateau d'Argimusco: mégalithes mystérieux et formations rocheuses ancestrales.", "https://www.google.com/maps/search/?api=1&query=Argimusco+Megaliths+Sicily"],
-        ["🍝 Gastronomie", "Trattoria typique à Montalbano. Produits locaux et dégustation de vins.", "https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+ristorante+tipico"],
-        ["📜 Curiosité", "L'Argimusco est surnommé le Stonehenge de Sicile: des formations naturelles qui ressemblent à des sculptures humaines."],
-        ["🏛️ Repère historique", "Le Castello di Montalbano Elicona fut résidence de rois aragonais."],
-        ["🎭 Culture locale", "Vie rurale, traditions préservées et faible influence touristique."],
-        ["🍷 Vin de la région", "Faro DOC: moins connu, mais excellent."],
-        ["🍽️ Cuisine typique", "Fromages des Nebrodi, porc noir sicilien et champignons sauvages."]
-      ]
-    },
-    {
-      label: "Jour 4",
-      title: "Cefalù: cathédrale, art & plage",
-      distance: "~120 km",
-      rhythm: "Repas ~30€, lido 20€, cathédrale ~3€",
-      photos: ["dia 3 foto 1.jfif", "dia 3 foto 2.jfif", "dia 3 foto 3.jfif"],
-      blocks: [
-        ["🏛️ UNESCO", "Cathédrale normande de Cefalù: mosaïques byzantines, chef-d'œuvre au bord de la mer.", "https://www.google.com/maps/search/?api=1&query=Cattedrale+di+Cefal%C3%B9+UNESCO"],
-        ["🎨 Art", "Musée Mandralisca: collection d'art et d'archéologie, avec le Portrait d'un inconnu.", "https://www.google.com/maps/search/?api=1&query=Museo+Mandralisca+Cefalu"],
-        ["⛪ Histoire", "Lavatoio medievale: ancien lavoir public de l'époque normande.", "https://www.google.com/maps/search/?api=1&query=Lavatoio+Medievale+Cefalu"],
-        ["🏖️ Plage", "Plage de sable fin dans le centre historique, rare en Sicile. Lidos complets.", "https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Cefal%C3%B9+Sicily"],
-        ["📜 Curiosité", "La cathédrale aurait été construite par un roi normand après avoir survécu à une tempête."],
-        ["🏛️ Repère artistique", "La mosaïque du Pantocrator est l'une des plus impressionnantes d'Europe."],
-        ["🎭 Culture locale", "Mélange parfait de tourisme et d'authenticité."],
-        ["🍷 Vins de la région", "Grillo et Catarratto, deux blancs siciliens typiques."],
-        ["🍽️ Cuisine typique", "Arancini, poissons grillés et pâtes aux fruits de mer."]
-      ]
-    },
-    {
-      label: "Jour 5",
-      title: "Îles Éoliennes: Lipari",
-      distance: "Bateau",
-      rhythm: "Bateau ~25€, repas ~25€, tour ~30€",
-      photos: ["dia 6 foto 1.jfif", "dia 6 foto 2.jfif", "dia 6 foto 3.jfif"],
-      blocks: [
-        ["🏰 Histoire", "Château de Lipari: forteresse normande sur falaise, vue vers Vulcano.", "https://www.google.com/maps/search/?api=1&query=Castello+di+Lipari"],
-        ["🏺 Archéologie", "Musée éolien: découvertes archéologiques des îles et histoire volcanique.", "https://www.google.com/maps/search/?api=1&query=Museo+Archeologico+Eoliano+Lipari"],
-        ["⛪ Culture & foi", "Cathédrale San Bartolomeo et cloître normand. Trésor architectural.", "https://www.google.com/maps/search/?api=1&query=Cattedrale+San+Bartolomeo+Lipari"],
-        ["🍽️ Déjeuner", "Restaurant à Lipari, Marina Corta. Poissons frais et spécialités siciliennes.", "https://www.google.com/maps/search/?api=1&query=Lipari+Marina+Corta+restaurant"],
-        ["🚤 Expérience", "Après-midi libre: plage à Canneto ou tour en bateau vers Vulcano, grottes et paysages.", "https://www.google.com/maps/search/?api=1&query=Lipari+boat+tour+Vulcano"],
-        ["📜 Curiosité", "Dans la mythologie grecque, les îles Éoliennes étaient considérées comme la demeure d'Éole, dieu des vents."],
-        ["🏛️ Repère historique", "Le Castello di Lipari a été occupé par Grecs, Romains et Normands: une rare succession."],
-        ["🎭 Culture locale", "Vie maritime, rythme lent et identité propre."],
-        ["🍷 Vin unique", "Malvasia delle Lipari, douce et sophistiquée."],
-        ["🍽️ Cuisine typique", "Plats aux câpres, espadon et salades méditerranéennes fraîches."]
-      ]
-    },
-    {
-      label: "Jour 6",
-      title: "Capo d'Orlando: clôture",
-      distance: "~40 km",
-      rhythm: "Shopping variable, gala ~45€, lido ~15€",
-      photos: ["dia 1 foto 2.jfif", "dia 3 foto 3.jfif", "dia 6 foto 2.jfif"],
-      blocks: [
-        ["🏰 Culture", "Tour médiévale de Capo d'Orlando: belvédère historique avec vue sur les îles Éoliennes.", "https://www.google.com/maps/search/?api=1&query=Torre+Capo+d%27Orlando"],
-        ["🛍️ Shopping", "Marina de Capo d'Orlando: céramiques siciliennes, boutiques et artisanat local.", "https://www.google.com/maps/search/?api=1&query=Capo+d%27Orlando+Marina+Sicily"],
-        ["🏖️ Plage", "Dernière baignade à Capo d'Orlando, eaux cristallines et Lidos confortables.", "https://www.google.com/maps/search/?api=1&query=Spiaggia+Capo+d%27Orlando"],
-        ["🥂 Expérience", "Dîner de clôture au Ristorante Donna Villa, à Patti. Toast final avec vue vers les Éoliennes.", "https://www.google.com/maps/search/?api=1&query=Ristorante+Donna+Villa+Patti"],
-        ["📜 Curiosité", "Le nom Capo d'Orlando vient de la légende d'Orlando, chevalier médiéval."],
-        ["🎭 Culture locale", "Ville vivante, moins touristique et plus authentique."],
-        ["🛍️ Artisanat", "Céramiques siciliennes, mélange d'influences arabes et baroques."],
-        ["🍷 Vin de la région", "Nero d'Avola, le rouge le plus célèbre de Sicile."],
-        ["🍽️ Cuisine typique", "Caponata et cassata sicilienne, dessert classique."]
-      ]
-    }
+    { label: "Matin", temp: "26°" },
+    { label: "Après-midi", temp: "32°" },
+    { label: "Nuit", temp: "22°" }
   ],
   pt: [
-    {
-      label: "Dia 1",
-      title: "Tindari + Laghetti di Marinello",
-      distance: "~15 km",
-      rhythm: "Refeição ~25€",
-      photos: ["dia 1 foto 1.jfif", "dia 1 foto 2.jfif", "dia 1 foto 3.jfif"],
-      blocks: [
-        ["⛪ Cultura & Fé", "Santuário de Tindari: mosaicos bizantinos, Madona Negra e vista panorâmica do golfo.", "https://www.google.com/maps/search/?api=1&query=Santuario+di+Tindari+Madonna+Nera"],
-        ["🏖️ Natureza & Praia", "Laghetti di Marinello, em Oliveri. Águas rasas e quentes, perfeitas para crianças e idosos.", "https://www.google.com/maps/search/?api=1&query=Laghetti+di+Marinello+Oliveri"],
-        ["🍝 Gastronomia", "Trattoria local. Jantar de boas-vindas com massas de frutos do mar.", "https://www.google.com/maps/search/?api=1&query=Trattoria+Tindari+seafood"],
-        ["📜 Curiosidade", "A Laghetti di Marinello muda de formato constantemente por causa das correntes: não existe igual fixo."],
-        ["🏛️ Marco histórico", "O Santuario di Tindari guarda a Madonna Nera, ligada a lendas de milagres desde a Idade Média."],
-        ["🎭 Cultura local", "Mistura de tradição religiosa intensa com vida costeira simples."],
-        ["🍷 Vinho da região", "Mamertino DOC: vinho histórico, dizem que Júlio César bebia."],
-        ["🍽️ Comida típica", "Pasta com sardinha, anchovas frescas, granita com brioche no café da manhã siciliano clássico."]
-      ]
-    },
-    {
-      label: "Dia 2",
-      title: "Etna + Alcantara + Taormina",
-      distance: "~200 km",
-      rhythm: "Refeição ~30€, 4x4 opcional 35€, granita 5€",
-      photos: ["dia 5 foto 1.jfif", "dia 5 foto 2.jfif", "dia 5 foto 3.jfif"],
-      blocks: [
-        ["🌋 Vulcão Ativo", "Crateri Silvestri, a 1 900 m. Subida acessível. Opcional 4x4 para cotas mais altas.", "https://www.google.com/maps/search/?api=1&query=Crateri+Silvestri+Etna"],
-        ["🏞️ Geologia", "Garganta do Alcantara: colunas basálticas, paredões de lava. Caminhada curta e segura.", "https://www.google.com/maps/search/?api=1&query=Gole+dell+Alcantara"],
-        ["🏛️ História", "Teatro Antigo de Taormina: ruínas greco-romanas com vista para o mar e o Etna.", "https://www.google.com/maps/search/?api=1&query=Teatro+Antico+Taormina"],
-        ["⛪ Cultura", "Duomo de Taormina e igrejas barrocas no centro histórico.", "https://www.google.com/maps/search/?api=1&query=Duomo+di+Taormina"],
-        ["🍧 Granita & Passeio", "Granita no Bam Bar, local icônico. Passeio pelo Corso Umberto.", "https://www.google.com/maps/search/?api=1&query=Bam+Bar+Taormina+Granita"],
-        ["📜 Curiosidade", "O Monte Etna é um dos vulcões mais ativos do mundo e, ao mesmo tempo, produz alguns dos melhores vinhos da Itália."],
-        ["🏛️ Marco histórico", "O Teatro Antico di Taormina foi construído pelos gregos e adaptado pelos romanos: história em camadas."],
-        ["🎭 Cultura local", "Taormina é a Sicília refinada: mistura de elite europeia, cinema e tradição."],
-        ["🍷 Vinhos imperdíveis", "Etna Rosso DOC, mineral e elegante, e Nerello Mascalese, uva típica vulcânica."],
-        ["🍽️ Comida típica", "Pasta alla Norma, com berinjela e ricota salgada, e cannoli de origem árabe-siciliana."]
-      ]
-    },
-    {
-      label: "Dia 3",
-      title: "Montalbano & Megálitos de Argimusco",
-      distance: "~90 km",
-      rhythm: "Refeição ~25€, degustação vinhos ~10€",
-      photos: ["dia 4 foto 1.jfif", "dia 4 foto 2.jfif", "dia 4 foto 3.jfif"],
-      blocks: [
-        ["🏰 História", "Castelo medieval de Montalbano Elicona: um dos mais belos vilarejos da Itália.", "https://www.google.com/maps/search/?api=1&query=Castello+di+Montalbano+Elicona"],
-        ["⛪ Cultura & Fé", "Igreja normanda Santa Maria Assunta: arte sacra e cripta medieval.", "https://www.google.com/maps/search/?api=1&query=Santa+Maria+Assunta+Montalbano+Elicona"],
-        ["🗿 Experiência", "Plateau de Argimusco: megálitos misteriosos, formações rochosas ancestrais.", "https://www.google.com/maps/search/?api=1&query=Argimusco+Megaliths+Sicily"],
-        ["🍝 Gastronomia", "Trattoria típica em Montalbano. Produtos locais e degustação de vinhos.", "https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+ristorante+tipico"],
-        ["📜 Curiosidade", "O Argimusco é chamado de Stonehenge da Sicília: formações naturais que parecem esculturas humanas."],
-        ["🏛️ Marco histórico", "Castello di Montalbano Elicona foi residência de reis aragoneses."],
-        ["🎭 Cultura local", "Vida rural, tradições preservadas e pouca influência turística."],
-        ["🍷 Vinho da região", "Faro DOC: menos conhecido, mas excelente."],
-        ["🍽️ Comida típica", "Queijos dos Nebrodi, porco preto siciliano e cogumelos selvagens."]
-      ]
-    },
-    {
-      label: "Dia 4",
-      title: "Cefalù: Catedral, Arte & Praia",
-      distance: "~120 km",
-      rhythm: "Refeição ~30€, lido 20€, catedral ~3€",
-      photos: ["dia 3 foto 1.jfif", "dia 3 foto 2.jfif", "dia 3 foto 3.jfif"],
-      blocks: [
-        ["🏛️ UNESCO", "Catedral normanda de Cefalù: mosaicos bizantinos, obra-prima à beira-mar.", "https://www.google.com/maps/search/?api=1&query=Cattedrale+di+Cefal%C3%B9+UNESCO"],
-        ["🎨 Arte", "Museu Mandralisca: coleção de arte e arqueologia, Retrato de um Desconhecido.", "https://www.google.com/maps/search/?api=1&query=Museo+Mandralisca+Cefalu"],
-        ["⛪ História", "Lavatório medieval: lavadouro público da época normanda.", "https://www.google.com/maps/search/?api=1&query=Lavatoio+Medievale+Cefalu"],
-        ["🏖️ Praia", "Praia de areia fina no centro histórico, rara na Sicília. Lidos completos.", "https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Cefal%C3%B9+Sicily"],
-        ["📜 Curiosidade", "A Cattedrale di Cefalù foi construída por um rei normando como promessa após sobreviver a uma tempestade."],
-        ["🏛️ Marco histórico/artístico", "O mosaico do Pantocrator é um dos mais impressionantes da Europa."],
-        ["🎭 Cultura local", "Mistura perfeita de turismo e autenticidade."],
-        ["🍷 Vinhos da região", "Grillo e Catarratto: brancos típicos sicilianos."],
-        ["🍽️ Comida típica", "Arancini, peixes grelhados e pasta com frutos do mar."]
-      ]
-    },
-    {
-      label: "Dia 5",
-      title: "Ilhas Eólias: Lipari",
-      distance: "Barco",
-      rhythm: "Barco ~25€, refeição ~25€, tour opcional ~30€",
-      photos: ["dia 6 foto 1.jfif", "dia 6 foto 2.jfif", "dia 6 foto 3.jfif"],
-      blocks: [
-        ["🏰 História", "Castelo de Lipari: fortaleza normanda sobre penhasco, vista para Vulcano.", "https://www.google.com/maps/search/?api=1&query=Castello+di+Lipari"],
-        ["🏺 Arqueologia", "Museu Eólio: achados arqueológicos das ilhas, história vulcânica.", "https://www.google.com/maps/search/?api=1&query=Museo+Archeologico+Eoliano+Lipari"],
-        ["⛪ Cultura & Fé", "Catedral San Bartolomeo e claustro normando. Tesouro arquitetônico.", "https://www.google.com/maps/search/?api=1&query=Cattedrale+San+Bartolomeo+Lipari"],
-        ["🍽️ Almoço", "Restaurante em Lipari, Marina Corta. Peixes frescos e especialidades sicilianas.", "https://www.google.com/maps/search/?api=1&query=Lipari+Marina+Corta+restaurant"],
-        ["🚤 Experiência", "Tarde livre: praia em Canneto ou tour de barco para ver Vulcano, grutas e paisagens.", "https://www.google.com/maps/search/?api=1&query=Lipari+boat+tour+Vulcano"],
-        ["📜 Curiosidade", "As Isole Eolie eram consideradas na mitologia grega o lar de Éolo, deus dos ventos."],
-        ["🏛️ Marco histórico", "Castello di Lipari foi ocupado por gregos, romanos e normandos: sequência rara."],
-        ["🎭 Cultura local", "Vida marítima, ritmo lento e identidade própria."],
-        ["🍷 Vinho único", "Malvasia delle Lipari: doce e sofisticado."],
-        ["🍽️ Comida típica", "Pratos com alcaparras, peixe espada e saladas mediterrâneas frescas."]
-      ]
-    },
-    {
-      label: "Dia 6",
-      title: "Capo d'Orlando: Encerramento",
-      distance: "~40 km",
-      rhythm: "Compras variável, jantar gala ~45€, lido ~15€",
-      photos: ["dia 1 foto 2.jfif", "dia 3 foto 3.jfif", "dia 6 foto 2.jfif"],
-      blocks: [
-        ["🏰 Cultura", "Torre medieval de Capo d'Orlando: mirante histórico com vista das Ilhas Eólias.", "https://www.google.com/maps/search/?api=1&query=Torre+Capo+d%27Orlando"],
-        ["🛍️ Shopping", "Marina de Capo d'Orlando: cerâmicas sicilianas, boutiques e artesanato local.", "https://www.google.com/maps/search/?api=1&query=Capo+d%27Orlando+Marina+Sicily"],
-        ["🏖️ Praia", "Último banho de mar em Capo d'Orlando, águas cristalinas e Lidos confortáveis.", "https://www.google.com/maps/search/?api=1&query=Spiaggia+Capo+d%27Orlando"],
-        ["🥂 Experiência", "Jantar de encerramento no Ristorante Donna Villa, em Patti. Brinde final com vista para as Eólias.", "https://www.google.com/maps/search/?api=1&query=Ristorante+Donna+Villa+Patti"],
-        ["📜 Curiosidade", "O nome Capo d'Orlando vem da lenda de Orlando, cavaleiro medieval."],
-        ["🎭 Cultura local", "Cidade viva, menos turística e mais autêntica."],
-        ["🛍️ Artesanato", "Cerâmicas sicilianas: mistura de influência árabe e barroca."],
-        ["🍷 Vinho da região", "Nero d'Avola: o tinto mais famoso da Sicília."],
-        ["🍽️ Comida típica", "Caponata, berinjela agridoce, e cassata siciliana, sobremesa clássica."]
-      ]
-    }
+    { label: "Manhã", temp: "26°" },
+    { label: "Tarde", temp: "32°" },
+    { label: "Noite", temp: "22°" }
   ]
 };
-
-content.fr.days = routeDays.fr;
-content.pt.days = routeDays.pt;
-content.fr.ui.heroBadge = "Sicile · 6 jours · voyage en famille";
-content.pt.ui.heroBadge = "Sicília · 6 dias · viagem em família";
-content.fr.ui.footerText = "Itinéraire culturel de 6 jours en Sicile, pensé pour partager de bons moments sans épuiser le groupe.";
-content.pt.ui.footerText = "Roteiro cultural de 6 dias na Sicília, pensado para compartilhar bons momentos sem cansar o grupo.";
-
-let lang = "fr";
-let dailyForecast = [];
 
 const weatherCodes = {
   fr: {
@@ -1483,47 +1259,14 @@ const weatherCodes = {
   }
 };
 
+let lang = "fr";
+
 function el(id) {
   return document.getElementById(id);
 }
 
 function cleanBlockLabel(label) {
   return label.replace(/^[^\p{L}\p{N}]+/u, "").trim();
-}
-
-function formatForecastDay(dateText, index) {
-  const date = new Date(`${dateText}T12:00:00`);
-  if (Number.isNaN(date.getTime())) return lang === "fr" ? `Jour ${index + 1}` : `Dia ${index + 1}`;
-  const locale = lang === "fr" ? "fr-FR" : "pt-BR";
-  return new Intl.DateTimeFormat(locale, { weekday: "short", day: "2-digit" }).format(date);
-}
-
-function forecastBadge(index) {
-  const forecast = dailyForecast[index];
-  if (!forecast) return "";
-  const label = lang === "fr" ? "Météo" : "Clima";
-  return `${label}: ${forecast.min}°-${forecast.max}° · ${forecast.rain}%`;
-}
-
-function weatherCondition(code) {
-  return weatherCodes[lang][code] || (lang === "fr" ? "Variable" : "Variável");
-}
-
-function renderWeatherDays() {
-  const target = el("weatherDays");
-  if (!target) return;
-  const days = content[lang].days || [];
-  if (!dailyForecast.length) {
-    target.innerHTML = "";
-    return;
-  }
-  target.innerHTML = dailyForecast.slice(0, days.length).map((forecast, index) => `
-    <div class="weather-day">
-      <span>${formatForecastDay(forecast.date, index)}</span>
-      <strong>${forecast.min}° / ${forecast.max}°</strong>
-      <small>${weatherCondition(forecast.code)} · ${forecast.rain}%</small>
-    </div>
-  `).join("");
 }
 
 function renderStaticText() {
@@ -1574,6 +1317,17 @@ function renderCultureTips() {
   `).join("");
 }
 
+function renderWeatherDays() {
+  const avg = augustAverages[lang];
+  el("weatherDays").innerHTML = avg.map(item => `
+    <div class="weather-day">
+      <span>${item.label}</span>
+      <strong>${item.temp}</strong>
+      <small>média ago.</small>
+    </div>
+  `).join("");
+}
+
 function renderDays() {
   const data = content[lang];
   el("itinerary").innerHTML = data.days.map((day, index) => `
@@ -1600,7 +1354,6 @@ function renderDays() {
         <div class="day-meta">
           <span class="badge">${day.distance}</span>
           <span class="badge">${day.rhythm}</span>
-          ${forecastBadge(index) ? `<span class="badge day-weather">${forecastBadge(index)}</span>` : ""}
         </div>
         <div class="blocks">
           ${day.blocks.map(([label, text, map]) => `
@@ -1634,6 +1387,30 @@ function bindCarouselButtons() {
   });
 }
 
+async function loadWeather() {
+  const data = content[lang];
+  try {
+    const url = "https://api.open-meteo.com/v1/forecast?latitude=38.1407&longitude=15.0434&current=temperature_2m,weather_code,wind_speed_10m,precipitation_probability&timezone=Europe%2FRome";
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Weather request failed");
+    const forecast = await response.json();
+    const current = forecast.current;
+    const condition = weatherCodes[lang][current.weather_code] || (lang === "fr" ? "Météo variable" : "Tempo variável");
+
+    el("weatherTemp").textContent = `${Math.round(current.temperature_2m)}°`;
+    el("weatherWind").textContent = `${Math.round(current.wind_speed_10m)} km/h`;
+    el("weatherRain").textContent = `${current.precipitation_probability || 0}%`;
+    el("weatherMax").textContent = `${Math.round(current.temperature_2m + 6)}°`; // estimativa
+    el("weatherNote").textContent = `${condition}. ${data.ui.weatherNote}`;
+  } catch (error) {
+    el("weatherTemp").textContent = "26°";
+    el("weatherWind").textContent = "12 km/h";
+    el("weatherRain").textContent = "10%";
+    el("weatherMax").textContent = "32°";
+    el("weatherNote").textContent = data.ui.weatherFallback;
+  }
+}
+
 function render() {
   renderStaticText();
   renderFamilyTips();
@@ -1643,44 +1420,6 @@ function render() {
   renderLangButtons();
   bindCarouselButtons();
   loadWeather();
-}
-
-async function loadWeather() {
-  const data = content[lang];
-  try {
-    const url = "https://api.open-meteo.com/v1/forecast?latitude=38.1407&longitude=15.0434&current=temperature_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Europe%2FRome";
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Weather request failed");
-    const forecast = await response.json();
-    const current = forecast.current;
-    const daily = forecast.daily;
-    const condition = weatherCodes[lang][current.weather_code] || (lang === "fr" ? "Météo variable" : "Tempo variável");
-
-    el("weatherTemp").textContent = `${Math.round(current.temperature_2m)}°`;
-    el("weatherWind").textContent = `${Math.round(current.wind_speed_10m)} km/h`;
-    el("weatherRain").textContent = `${daily.precipitation_probability_max[0]}%`;
-    el("weatherMax").textContent = `${Math.round(daily.temperature_2m_max[0])}°`;
-    el("weatherNote").textContent = `${condition}. ${data.ui.weatherNote}`;
-
-    dailyForecast = daily.time.map((date, index) => ({
-      date,
-      min: Math.round(daily.temperature_2m_min[index]),
-      max: Math.round(daily.temperature_2m_max[index]),
-      rain: daily.precipitation_probability_max[index],
-      code: daily.weather_code[index]
-    }));
-    renderWeatherDays();
-    renderDays();
-    bindCarouselButtons();
-  } catch (error) {
-    dailyForecast = [];
-    el("weatherTemp").textContent = "--°";
-    el("weatherWind").textContent = "--";
-    el("weatherRain").textContent = "--";
-    el("weatherMax").textContent = "--";
-    el("weatherNote").textContent = data.ui.weatherFallback;
-    renderWeatherDays();
-  }
 }
 
 el("langSwitch").addEventListener("click", event => {
