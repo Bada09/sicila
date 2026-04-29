@@ -1,4 +1,4 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -56,6 +56,7 @@ a { color: inherit; }
   padding: clamp(1rem, 4vw, 3rem);
   background: #10272d;
   overflow: hidden;
+  width: 100%;
 }
 
 .hero::before {
@@ -64,10 +65,9 @@ a { color: inherit; }
   inset: 0;
   z-index: -2;
   background:
-    linear-gradient(90deg, rgba(12, 45, 55, 0.94), rgba(12, 45, 55, 0.48) 48%, rgba(21, 18, 15, 0.15)),
-    linear-gradient(0deg, rgba(21, 18, 15, 0.72), rgba(21, 18, 15, 0.08) 55%),
-    url("dia 2 foto 1.jfif") center / cover;
-  transform: scale(1.02);
+    linear-gradient(90deg, rgba(12, 45, 55, 0.88), rgba(12, 45, 55, 0.42) 48%, rgba(21, 18, 15, 0.12)),
+    linear-gradient(0deg, rgba(21, 18, 15, 0.68), rgba(21, 18, 15, 0.04) 55%),
+    url("dia%202%20foto%201.jfif") center / cover;
 }
 
 .topbar {
@@ -262,7 +262,7 @@ h1 span {
   align-self: end;
   justify-self: end;
   margin-bottom: clamp(0.5rem, 5vh, 4rem);
-  transform: translateX(clamp(2.5rem, 7vw, 5.5rem));
+  transform: translateX(clamp(0.5rem, 4vw, 2rem));
   border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 8px;
   padding: 1rem;
@@ -388,7 +388,7 @@ h1 span {
   color: var(--ink);
   background:
     linear-gradient(120deg, rgba(255, 248, 233, 0.96), rgba(223, 240, 239, 0.9)),
-    url("dia 5 foto 2.jfif") center / cover;
+    url("dia%205%20foto%202.jfif") center / cover;
 }
 
 .overview-inner {
@@ -461,7 +461,7 @@ h1 span {
   color: #fff;
   background:
     linear-gradient(90deg, rgba(14, 42, 48, 0.96), rgba(14, 42, 48, 0.58)),
-    url("dia 4 foto 2.jfif") center / cover;
+    url("dia%204%20foto%202.jfif") center / cover;
 }
 
 .culture-inner {
@@ -721,7 +721,7 @@ h1 span {
   color: #fff;
   background:
     linear-gradient(90deg, rgba(13, 38, 46, 0.96), rgba(13, 38, 46, 0.54)),
-    url("dia 3 foto 1.jfif") center / cover;
+    url("dia%203%20foto%201.jfif") center / cover;
   text-align: center;
 }
 
@@ -893,8 +893,8 @@ h1 span {
     <a class="menu-link" href="#jour-1" id="menuRoute"></a>
   </div>
   <div class="lang-switch" id="langSwitch">
-    <button class="lang-btn active" type="button" data-lang="fr">Français</button>
-    <button class="lang-btn" type="button" data-lang="pt">Português</button>
+    <button class="lang-btn active" type="button" data-lang="fr" data-lang-short="FR">Français</button>
+    <button class="lang-btn" type="button" data-lang="pt" data-lang-short="PT">Português</button>
   </div>
 </nav>
 
@@ -973,15 +973,20 @@ h1 span {
 </footer>
 
 <script>
-// Conteúdo completo com curiosidades, vinhos, etc.
-const routeDays = {
+// Função para codificar nomes de arquivos com espaços
+function encodeFileName(name) {
+  return name.replace(/ /g, '%20');
+}
+
+// Dados do roteiro com os nomes originais das imagens (vamos codificar na hora de usar)
+const routeDaysData = {
   fr: [
     {
       label: "Jour 1",
       title: "Tindari + Laghetti di Marinello",
       distance: "~15 km",
       rhythm: "Repas ~25€",
-      photos: ["dia 1 foto 1.jfif", "dia 1 foto 2.jfif", "dia 1 foto 3.jfif"],
+      photoNames: ["dia 1 foto 1.jfif", "dia 1 foto 2.jfif", "dia 1 foto 3.jfif"],
       blocks: [
         ["⛪ Culture & foi", "Sanctuaire de Tindari: mosaïques byzantines, Madone Noire et vue panoramique sur le golfe.", "https://www.google.com/maps/search/?api=1&query=Santuario+di+Tindari+Madonna+Nera"],
         ["🏖️ Nature & plage", "Laghetti di Marinello, à Oliveri. Eaux basses et chaudes, parfaites pour les enfants et les personnes âgées.", "https://www.google.com/maps/search/?api=1&query=Laghetti+di+Marinello+Oliveri"],
@@ -998,7 +1003,7 @@ const routeDays = {
       title: "Etna + Alcantara + Taormine",
       distance: "~200 km",
       rhythm: "Repas ~30€, 4x4 35€, granita 5€",
-      photos: ["dia 5 foto 1.jfif", "dia 5 foto 2.jfif", "dia 5 foto 3.jfif"],
+      photoNames: ["dia 2 foto 1.jfif", "dia 2 foto 2.jfif", "dia 2 foto 3.jfif"],
       blocks: [
         ["🌋 Volcan actif", "Crateri Silvestri, à 1 900 m. Montée accessible. Option 4x4 pour les altitudes plus élevées.", "https://www.google.com/maps/search/?api=1&query=Crateri+Silvestri+Etna"],
         ["🏞️ Géologie", "Gorges de l'Alcantara: colonnes basaltiques et parois de lave. Marche courte et sûre.", "https://www.google.com/maps/search/?api=1&query=Gole+dell+Alcantara"],
@@ -1017,7 +1022,7 @@ const routeDays = {
       title: "Montalbano & mégalithes d'Argimusco",
       distance: "~90 km",
       rhythm: "Repas ~25€, dégustation ~10€",
-      photos: ["dia 4 foto 1.jfif", "dia 4 foto 2.jfif", "dia 4 foto 3.jfif"],
+      photoNames: ["dia 3 foto 1.jfif", "dia 3 foto 2.jfif", "dia 3 foto 3.jfif"],
       blocks: [
         ["🏰 Histoire", "Château médiéval de Montalbano Elicona, l'un des plus beaux villages d'Italie.", "https://www.google.com/maps/search/?api=1&query=Castello+di+Montalbano+Elicona"],
         ["⛪ Culture & foi", "Église normande Santa Maria Assunta: art sacré et crypte médiévale.", "https://www.google.com/maps/search/?api=1&query=Santa+Maria+Assunta+Montalbano+Elicona"],
@@ -1035,7 +1040,7 @@ const routeDays = {
       title: "Cefalù: cathédrale, art & plage",
       distance: "~120 km",
       rhythm: "Repas ~30€, lido 20€, cathédrale ~3€",
-      photos: ["dia 3 foto 1.jfif", "dia 3 foto 2.jfif", "dia 3 foto 3.jfif"],
+      photoNames: ["dia 4 foto 1.jfif", "dia 4 foto 2.jfif", "dia 4 foto 3.jfif"],
       blocks: [
         ["🏛️ UNESCO", "Cathédrale normande de Cefalù: mosaïques byzantines, chef-d'œuvre au bord de la mer.", "https://www.google.com/maps/search/?api=1&query=Cattedrale+di+Cefal%C3%B9+UNESCO"],
         ["🎨 Art", "Musée Mandralisca: collection d'art et d'archéologie, avec le Portrait d'un inconnu.", "https://www.google.com/maps/search/?api=1&query=Museo+Mandralisca+Cefalu"],
@@ -1053,7 +1058,7 @@ const routeDays = {
       title: "Îles Éoliennes: Lipari",
       distance: "Bateau",
       rhythm: "Bateau ~25€, repas ~25€, tour ~30€",
-      photos: ["dia 6 foto 1.jfif", "dia 6 foto 2.jfif", "dia 6 foto 3.jfif"],
+      photoNames: ["dia 5 foto 1.jfif", "dia 5 foto 2.jfif", "dia 5 foto 3.jfif"],
       blocks: [
         ["🏰 Histoire", "Château de Lipari: forteresse normande sur falaise, vue vers Vulcano.", "https://www.google.com/maps/search/?api=1&query=Castello+di+Lipari"],
         ["🏺 Archéologie", "Musée éolien: découvertes archéologiques des îles et histoire volcanique.", "https://www.google.com/maps/search/?api=1&query=Museo+Archeologico+Eoliano+Lipari"],
@@ -1072,7 +1077,7 @@ const routeDays = {
       title: "Capo d'Orlando: clôture",
       distance: "~40 km",
       rhythm: "Shopping variable, gala ~45€, lido ~15€",
-      photos: ["dia 1 foto 2.jfif", "dia 3 foto 3.jfif", "dia 6 foto 2.jfif"],
+      photoNames: ["dia 6 foto 1.jfif", "dia 6 foto 2.jfif", "dia 6 foto 3.jfif"],
       blocks: [
         ["🏰 Culture", "Tour médiévale de Capo d'Orlando: belvédère historique avec vue sur les îles Éoliennes.", "https://www.google.com/maps/search/?api=1&query=Torre+Capo+d%27Orlando"],
         ["🛍️ Shopping", "Marina de Capo d'Orlando: céramiques siciliennes, boutiques et artisanat local.", "https://www.google.com/maps/search/?api=1&query=Capo+d%27Orlando+Marina+Sicily"],
@@ -1092,7 +1097,7 @@ const routeDays = {
       title: "Tindari + Laghetti di Marinello",
       distance: "~15 km",
       rhythm: "Refeição ~25€",
-      photos: ["dia 1 foto 1.jfif", "dia 1 foto 2.jfif", "dia 1 foto 3.jfif"],
+      photoNames: ["dia 1 foto 1.jfif", "dia 1 foto 2.jfif", "dia 1 foto 3.jfif"],
       blocks: [
         ["⛪ Cultura & Fé", "Santuário de Tindari: mosaicos bizantinos, Madona Negra e vista panorâmica do golfo.", "https://www.google.com/maps/search/?api=1&query=Santuario+di+Tindari+Madonna+Nera"],
         ["🏖️ Natureza & Praia", "Laghetti di Marinello, em Oliveri. Águas rasas e quentes, perfeitas para crianças e idosos.", "https://www.google.com/maps/search/?api=1&query=Laghetti+di+Marinello+Oliveri"],
@@ -1109,7 +1114,7 @@ const routeDays = {
       title: "Etna + Alcantara + Taormina",
       distance: "~200 km",
       rhythm: "Refeição ~30€, 4x4 opcional 35€, granita 5€",
-      photos: ["dia 5 foto 1.jfif", "dia 5 foto 2.jfif", "dia 5 foto 3.jfif"],
+      photoNames: ["dia 2 foto 1.jfif", "dia 2 foto 2.jfif", "dia 2 foto 3.jfif"],
       blocks: [
         ["🌋 Vulcão Ativo", "Crateri Silvestri, a 1 900 m. Subida acessível. Opcional 4x4 para cotas mais altas.", "https://www.google.com/maps/search/?api=1&query=Crateri+Silvestri+Etna"],
         ["🏞️ Geologia", "Garganta do Alcantara: colunas basálticas, paredões de lava. Caminhada curta e segura.", "https://www.google.com/maps/search/?api=1&query=Gole+dell+Alcantara"],
@@ -1128,7 +1133,7 @@ const routeDays = {
       title: "Montalbano & Megálitos de Argimusco",
       distance: "~90 km",
       rhythm: "Refeição ~25€, degustação vinhos ~10€",
-      photos: ["dia 4 foto 1.jfif", "dia 4 foto 2.jfif", "dia 4 foto 3.jfif"],
+      photoNames: ["dia 3 foto 1.jfif", "dia 3 foto 2.jfif", "dia 3 foto 3.jfif"],
       blocks: [
         ["🏰 História", "Castelo medieval de Montalbano Elicona: um dos mais belos vilarejos da Itália.", "https://www.google.com/maps/search/?api=1&query=Castello+di+Montalbano+Elicona"],
         ["⛪ Cultura & Fé", "Igreja normanda Santa Maria Assunta: arte sacra e cripta medieval.", "https://www.google.com/maps/search/?api=1&query=Santa+Maria+Assunta+Montalbano+Elicona"],
@@ -1146,7 +1151,7 @@ const routeDays = {
       title: "Cefalù: Catedral, Arte & Praia",
       distance: "~120 km",
       rhythm: "Refeição ~30€, lido 20€, catedral ~3€",
-      photos: ["dia 3 foto 1.jfif", "dia 3 foto 2.jfif", "dia 3 foto 3.jfif"],
+      photoNames: ["dia 4 foto 1.jfif", "dia 4 foto 2.jfif", "dia 4 foto 3.jfif"],
       blocks: [
         ["🏛️ UNESCO", "Catedral normanda de Cefalù: mosaicos bizantinos, obra-prima à beira-mar.", "https://www.google.com/maps/search/?api=1&query=Cattedrale+di+Cefal%C3%B9+UNESCO"],
         ["🎨 Arte", "Museu Mandralisca: coleção de arte e arqueologia, Retrato de um Desconhecido.", "https://www.google.com/maps/search/?api=1&query=Museo+Mandralisca+Cefalu"],
@@ -1164,7 +1169,7 @@ const routeDays = {
       title: "Ilhas Eólias: Lipari",
       distance: "Barco",
       rhythm: "Barco ~25€, refeição ~25€, tour opcional ~30€",
-      photos: ["dia 6 foto 1.jfif", "dia 6 foto 2.jfif", "dia 6 foto 3.jfif"],
+      photoNames: ["dia 5 foto 1.jfif", "dia 5 foto 2.jfif", "dia 5 foto 3.jfif"],
       blocks: [
         ["🏰 História", "Castelo de Lipari: fortaleza normanda sobre penhasco, vista para Vulcano.", "https://www.google.com/maps/search/?api=1&query=Castello+di+Lipari"],
         ["🏺 Arqueologia", "Museu Eólio: achados arqueológicos das ilhas, história vulcânica.", "https://www.google.com/maps/search/?api=1&query=Museo+Archeologico+Eoliano+Lipari"],
@@ -1183,7 +1188,7 @@ const routeDays = {
       title: "Capo d'Orlando: Encerramento",
       distance: "~40 km",
       rhythm: "Compras variável, jantar gala ~45€, lido ~15€",
-      photos: ["dia 1 foto 2.jfif", "dia 3 foto 3.jfif", "dia 6 foto 2.jfif"],
+      photoNames: ["dia 6 foto 1.jfif", "dia 6 foto 2.jfif", "dia 6 foto 3.jfif"],
       blocks: [
         ["🏰 Cultura", "Torre medieval de Capo d'Orlando: mirante histórico com vista das Ilhas Eólias.", "https://www.google.com/maps/search/?api=1&query=Torre+Capo+d%27Orlando"],
         ["🛍️ Shopping", "Marina de Capo d'Orlando: cerâmicas sicilianas, boutiques e artesanato local.", "https://www.google.com/maps/search/?api=1&query=Capo+d%27Orlando+Marina+Sicily"],
@@ -1242,7 +1247,7 @@ const content = {
       ["Taormine", "Théâtre antique vivant", "Au théâtre, cherchez ensemble la scène, les gradins et l'Etna au fond: c'est le meilleur résumé de la Sicile en une seule image."],
       ["Lipari", "Îles Éoliennes", "Le château de Lipari donne un contexte clair sur les routes maritimes. Prévoyez ensuite une pause libre à Marina Corta."]
     ],
-    days: routeDays.fr
+    days: routeDaysData.fr
   },
   pt: {
     ui: {
@@ -1286,11 +1291,10 @@ const content = {
       ["Taormina", "Teatro antigo vivo", "No teatro, procurem juntos o palco, as arquibancadas e o Etna ao fundo: é o melhor resumo da Sicília em uma imagem."],
       ["Lipari", "Ilhas Eólias", "O castelo de Lipari dá contexto sobre as rotas marítimas. Depois, deixe uma pausa livre em Marina Corta."]
     ],
-    days: routeDays.pt
+    days: routeDaysData.pt
   }
 };
 
-// Médias de agosto (manhã, tarde, noite)
 const augustAverages = {
   fr: [
     { label: "Matin", temp: "26°" },
@@ -1321,6 +1325,7 @@ let lang = "fr";
 
 function el(id) { return document.getElementById(id); }
 function cleanBlockLabel(label) { return label.replace(/^[^\p{L}\p{N}]+/u, "").trim(); }
+function encodeFileName(name) { return name.replace(/ /g, '%20'); }
 
 function renderStaticText() {
   const data = content[lang];
@@ -1384,9 +1389,9 @@ function renderDays() {
     <article class="screen day" id="jour-${index + 1}">
       <div class="photo-carousel" data-carousel>
         <div class="slides">
-          ${day.photos.map((photo, i) => `
+          ${day.photoNames.map((photo, i) => `
             <figure class="slide">
-              <img src="${photo}" alt="${day.title} - ${i+1}" loading="${index === 0 ? "eager" : "lazy"}">
+              <img src="${encodeFileName(photo)}" alt="${day.title} - ${i+1}" loading="${index === 0 ? "eager" : "lazy"}" onerror="this.parentElement.style.background='linear-gradient(135deg, #2a4a55, #1a353e)'; this.style.opacity='0.5'">
             </figure>`).join("")}
         </div>
         <div class="swipe-hint">${data.ui.swipe}</div>
