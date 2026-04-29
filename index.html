@@ -148,18 +148,27 @@ a { color: inherit; }
 .lang-switch {
   border-radius: 999px;
   padding: 0.25rem;
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
 }
 
 .lang-btn {
-  min-width: 78px;
-  min-height: 34px;
+  min-width: 66px;
+  min-height: 30px;
   border: 0;
   border-radius: 999px;
   color: #fff;
   background: transparent;
   cursor: pointer;
+  font-size: 0.72rem;
   font-weight: 800;
   transition: color 0.2s ease, background 0.2s ease;
+}
+
+body.scrolled .lang-switch {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
 }
 
 .lang-btn.active {
@@ -324,6 +333,44 @@ h1 span {
   color: #eef8f7;
   font-size: 0.84rem;
   line-height: 1.45;
+}
+
+.weather-days {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+}
+
+.weather-day {
+  min-height: 66px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  padding: 0.55rem;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.weather-day span {
+  display: block;
+  color: #d7edf0;
+  font-size: 0.62rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.weather-day strong {
+  display: block;
+  margin-top: 0.2rem;
+  color: #fff;
+  font-size: 0.92rem;
+}
+
+.weather-day small {
+  display: block;
+  margin-top: 0.15rem;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.68rem;
+  line-height: 1.25;
 }
 
 .overview {
@@ -617,6 +664,12 @@ h1 span {
   font-weight: 900;
 }
 
+.day-weather {
+  color: #61430b;
+  background: #fff0c2;
+  border-color: rgba(227, 181, 81, 0.42);
+}
+
 .blocks {
   display: grid;
   gap: 0.75rem;
@@ -684,7 +737,7 @@ h1 span {
 
   .topbar {
     align-items: start;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto 1fr;
     gap: 0.6rem;
   }
 
@@ -697,6 +750,24 @@ h1 span {
   }
 
   .site-menu::-webkit-scrollbar { display: none; }
+
+  .lang-switch {
+    justify-self: end;
+    max-width: 86px;
+    overflow: hidden;
+  }
+
+  .lang-btn {
+    min-width: 38px;
+    padding: 0 0.45rem;
+    font-size: 0;
+  }
+
+  .lang-btn::before {
+    content: attr(data-lang);
+    font-size: 0.64rem;
+    text-transform: uppercase;
+  }
 
   .hero-inner,
   .overview-inner,
@@ -748,7 +819,7 @@ h1 span {
   }
 
   .lang-btn {
-    min-width: 58px;
+    min-width: 34px;
   }
 
   h1 {
@@ -775,6 +846,7 @@ h1 span {
   }
 
   .weather-grid,
+  .weather-days,
   .family-grid,
   .culture-grid {
     grid-template-columns: 1fr;
@@ -854,6 +926,7 @@ h1 span {
         </div>
       </div>
       <p class="weather-note" id="weatherNote"></p>
+      <div class="weather-days" id="weatherDays"></div>
     </aside>
   </div>
 </header>
@@ -1384,6 +1457,7 @@ content.fr.ui.footerText = "Itinéraire culturel de 6 jours en Sicile, pensé po
 content.pt.ui.footerText = "Roteiro cultural de 6 dias na Sicília, pensado para compartilhar bons momentos sem cansar o grupo.";
 
 let lang = "fr";
+let dailyForecast = [];
 
 const weatherCodes = {
   fr: {
@@ -1404,6 +1478,41 @@ function el(id) {
 
 function cleanBlockLabel(label) {
   return label.replace(/^[^\p{L}\p{N}]+/u, "").trim();
+}
+
+function formatForecastDay(dateText, index) {
+  const date = new Date(`${dateText}T12:00:00`);
+  if (Number.isNaN(date.getTime())) return lang === "fr" ? `Jour ${index + 1}` : `Dia ${index + 1}`;
+  const locale = lang === "fr" ? "fr-FR" : "pt-BR";
+  return new Intl.DateTimeFormat(locale, { weekday: "short", day: "2-digit" }).format(date);
+}
+
+function forecastBadge(index) {
+  const forecast = dailyForecast[index];
+  if (!forecast) return "";
+  const label = lang === "fr" ? "Météo" : "Clima";
+  return `${label}: ${forecast.min}°-${forecast.max}° · ${forecast.rain}%`;
+}
+
+function weatherCondition(code) {
+  return weatherCodes[lang][code] || (lang === "fr" ? "Variable" : "Variável");
+}
+
+function renderWeatherDays() {
+  const target = el("weatherDays");
+  if (!target) return;
+  const days = content[lang].days || [];
+  if (!dailyForecast.length) {
+    target.innerHTML = "";
+    return;
+  }
+  target.innerHTML = dailyForecast.slice(0, days.length).map((forecast, index) => `
+    <div class="weather-day">
+      <span>${formatForecastDay(forecast.date, index)}</span>
+      <strong>${forecast.min}° / ${forecast.max}°</strong>
+      <small>${weatherCondition(forecast.code)} · ${forecast.rain}%</small>
+    </div>
+  `).join("");
 }
 
 function renderStaticText() {
@@ -1480,6 +1589,7 @@ function renderDays() {
         <div class="day-meta">
           <span class="badge">${day.distance}</span>
           <span class="badge">${day.rhythm}</span>
+          ${forecastBadge(index) ? `<span class="badge day-weather">${forecastBadge(index)}</span>` : ""}
         </div>
         <div class="blocks">
           ${day.blocks.map(([label, text, map]) => `
@@ -1517,6 +1627,7 @@ function render() {
   renderStaticText();
   renderFamilyTips();
   renderCultureTips();
+  renderWeatherDays();
   renderDays();
   renderLangButtons();
   bindCarouselButtons();
@@ -1526,7 +1637,7 @@ function render() {
 async function loadWeather() {
   const data = content[lang];
   try {
-    const url = "https://api.open-meteo.com/v1/forecast?latitude=38.1407&longitude=15.0434&current=temperature_2m,weather_code,wind_speed_10m&daily=temperature_2m_max,precipitation_probability_max&timezone=Europe%2FRome";
+    const url = "https://api.open-meteo.com/v1/forecast?latitude=38.1407&longitude=15.0434&current=temperature_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Europe%2FRome";
     const response = await fetch(url);
     if (!response.ok) throw new Error("Weather request failed");
     const forecast = await response.json();
@@ -1539,12 +1650,25 @@ async function loadWeather() {
     el("weatherRain").textContent = `${daily.precipitation_probability_max[0]}%`;
     el("weatherMax").textContent = `${Math.round(daily.temperature_2m_max[0])}°`;
     el("weatherNote").textContent = `${condition}. ${data.ui.weatherNote}`;
+
+    dailyForecast = daily.time.map((date, index) => ({
+      date,
+      min: Math.round(daily.temperature_2m_min[index]),
+      max: Math.round(daily.temperature_2m_max[index]),
+      rain: daily.precipitation_probability_max[index],
+      code: daily.weather_code[index]
+    }));
+    renderWeatherDays();
+    renderDays();
+    bindCarouselButtons();
   } catch (error) {
+    dailyForecast = [];
     el("weatherTemp").textContent = "--°";
     el("weatherWind").textContent = "--";
     el("weatherRain").textContent = "--";
     el("weatherMax").textContent = "--";
     el("weatherNote").textContent = data.ui.weatherFallback;
+    renderWeatherDays();
   }
 }
 
@@ -1554,6 +1678,13 @@ el("langSwitch").addEventListener("click", event => {
   lang = button.dataset.lang;
   render();
 });
+
+function updateScrolledState() {
+  document.body.classList.toggle("scrolled", window.scrollY > 24);
+}
+
+window.addEventListener("scroll", updateScrolledState, { passive: true });
+updateScrolledState();
 
 render();
 </script>
