@@ -200,28 +200,24 @@ footer{text-align:center;padding:1.8rem 1rem 0.8rem;font-size:0.72rem;color:var(
     <button class="lbtn" data-l="fr">🇫🇷 FR</button>
   </div>
 
-  <!-- slide 0 -->
   <div class="hero-slide active" id="hs0">
     <div class="hero-emoji">⛵</div>
     <div class="slide-chip" id="c0"></div>
     <div class="slide-h1" id="h0"></div>
     <div class="slide-desc" id="d0"></div>
   </div>
-  <!-- slide 1 -->
   <div class="hero-slide" id="hs1">
     <div class="hero-emoji">🌋</div>
     <div class="slide-chip" id="c1"></div>
     <div class="slide-h1" id="h1"></div>
     <div class="slide-desc" id="d1"></div>
   </div>
-  <!-- slide 2 -->
   <div class="hero-slide" id="hs2">
     <div class="hero-emoji">🚤</div>
     <div class="slide-chip" id="c2"></div>
     <div class="slide-h1" id="h2"></div>
     <div class="slide-desc" id="d2"></div>
   </div>
-  <!-- slide 3 -->
   <div class="hero-slide" id="hs3">
     <div class="hero-emoji">🏛️</div>
     <div class="slide-chip" id="c3"></div>
@@ -322,7 +318,12 @@ const TX = {
        blocks:[
         {ico:'⛪',cat:'Cultura & Fé',txt:'Santuário de Tindari — mosaicos bizantinos, Madona Negra e vista panorâmica do golfo.',map:'https://www.google.com/maps/search/?api=1&query=Santuario+di+Tindari+Sicily'},
         {ico:'🏖️',cat:'Natureza & Praia',txt:'Laghetti di Marinello (Oliveri). Águas rasas e quentes, perfeitas para crianças e idosos.',map:'https://www.google.com/maps/search/?api=1&query=Laghetti+di+Marinello+Oliveri'},
-        {ico:'🍝',cat:'Gastronomia',txt:'Trattoria local. Jantar de boas-vindas com massas de frutos do mar.',map:'https://www.google.com/maps/search/?api=1&query=Trattoria+Oliveri+Sicily'}
+        {ico:'🍝',cat:'Gastronomia',txt:'Trattoria local. Jantar de boas-vindas com massas de frutos do mar.',map:'https://www.google.com/maps/search/?api=1&query=Trattoria+Oliveri+Sicily'},
+        {ico:'📜',cat:'Curiosidade',txt:'A Laghetti di Marinello muda de formato constantemente por causa das correntes — não existe igual fixo.'},
+        {ico:'🏛️',cat:'Marco histórico',txt:'O Santuario di Tindari guarda a Madonna Nera, ligada a lendas de milagres desde a Idade Média.'},
+        {ico:'🎭',cat:'Cultura local',txt:'Mistura de tradição religiosa intensa com vida costeira simples.'},
+        {ico:'🍷',cat:'Vinho da região',txt:'Mamertino DOC — vinho histórico, dizem que Júlio César bebia.'},
+        {ico:'🍽️',cat:'Comida típica',txt:'Pasta com sardinha, anchovas frescas, granita com brioche (café da manhã siciliano clássico).'}
        ]},
       {lbl:'Dia 2', title:'Etna + Alcantara + Taormina', dist:'~200 km', budget:'Refeição ~30€, 4x4 opcional 35€, Granita 5€',
        blocks:[
@@ -330,21 +331,36 @@ const TX = {
         {ico:'🏞️',cat:'Geologia',txt:'Garganta do Alcantara — colunas basálticas, paredões de lava. Caminhada curta e segura.',map:'https://www.google.com/maps/search/?api=1&query=Gole+Alcantara'},
         {ico:'🏛️',cat:'História',txt:'Teatro Antigo de Taormina — ruínas greco-romanas com vista mar e Etna.',map:'https://www.google.com/maps/search/?api=1&query=Teatro+Antico+Taormina'},
         {ico:'⛪',cat:'Cultura',txt:'Duomo de Taormina & igrejas barrocas no centro histórico.',map:'https://www.google.com/maps/search/?api=1&query=Duomo+di+Taormina'},
-        {ico:'🍧',cat:'Granita & Passeio',txt:'Granita no Bam Bar, local icônico. Passeio pelo Corso Umberto.',map:'https://www.google.com/maps/search/?api=1&query=Bam+Bar+Taormina'}
+        {ico:'🍧',cat:'Granita & Passeio',txt:'Granita no Bam Bar, local icônico. Passeio pelo Corso Umberto.',map:'https://www.google.com/maps/search/?api=1&query=Bam+Bar+Taormina'},
+        {ico:'📜',cat:'Curiosidade',txt:'O Monte Etna é um dos vulcões mais ativos do mundo — e ao mesmo tempo produz alguns dos melhores vinhos da Itália.'},
+        {ico:'🏛️',cat:'Marco histórico',txt:'O Teatro Antico di Taormina foi construído pelos gregos e adaptado pelos romanos — história em camadas.'},
+        {ico:'🎭',cat:'Cultura local',txt:'Taormina é a “Sicília refinada” — mistura de elite europeia, cinema e tradição.'},
+        {ico:'🍷',cat:'Vinhos imperdíveis',txt:'Etna Rosso DOC (mineral, elegante) e Nerello Mascalese (uva típica vulcânica).'},
+        {ico:'🍽️',cat:'Comida típica',txt:'Pasta alla Norma (berinjela + ricota salgada) e Cannoli (origem árabe-siciliana).'}
        ]},
       {lbl:'Dia 3', title:'Montalbano & Megálitos de Argimusco', dist:'~90 km', budget:'Refeição ~25€, Degustação vinhos ~10€',
        blocks:[
         {ico:'🏰',cat:'História',txt:'Castelo medieval de Montalbano Elicona — um dos mais belos vilarejos da Itália.',map:'https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+Messina'},
         {ico:'⛪',cat:'Cultura & Fé',txt:'Igreja normanda Santa Maria Assunta — arte sacra e cripta medieval.',map:'https://www.google.com/maps/search/?api=1&query=Chiesa+Santa+Maria+Assunta+Montalbano+Elicona'},
         {ico:'🗿',cat:'Experiência',txt:'Plateau de Argimusco — megálitos misteriosos, formações rochosas ancestrais.',map:'https://www.google.com/maps/search/?api=1&query=Argimusco+Megaliths+Sicily'},
-        {ico:'🍝',cat:'Gastronomia',txt:'Trattoria típica em Montalbano. Produtos locais e degustação de vinhos.',map:'https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+ristorante+tipico'}
+        {ico:'🍝',cat:'Gastronomia',txt:'Trattoria típica em Montalbano. Produtos locais e degustação de vinhos.',map:'https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+ristorante+tipico'},
+        {ico:'📜',cat:'Curiosidade',txt:'O Argimusco é chamado de “Stonehenge da Sicília” — formações naturais que parecem esculturas humanas.'},
+        {ico:'🏛️',cat:'Marco histórico',txt:'Castello di Montalbano Elicona foi residência de reis aragoneses.'},
+        {ico:'🎭',cat:'Cultura local',txt:'Vida rural, tradições preservadas, pouca influência turística.'},
+        {ico:'🍷',cat:'Vinho da região',txt:'Faro DOC — menos conhecido, mas excelente.'},
+        {ico:'🍽️',cat:'Comida típica',txt:'Queijos dos Nebrodi, porco preto siciliano, cogumelos selvagens.'}
        ]},
       {lbl:'Dia 4', title:'Cefalù — Catedral, Arte & Praia', dist:'~120 km', budget:'Refeição ~30€, Lido 20€, Catedral ~3€',
        blocks:[
         {ico:'🏛️',cat:'UNESCO',txt:'Catedral normanda de Cefalù — mosaicos bizantinos, obra-prima à beira-mar.',map:'https://www.google.com/maps/search/?api=1&query=Cattedrale+di+Cefalù+UNESCO'},
         {ico:'🎨',cat:'Arte',txt:'Museu Mandralisca — coleção de arte e arqueologia, Retrato de um Desconhecido.',map:'https://www.google.com/maps/search/?api=1&query=Museo+Mandralisca+Cefalù'},
         {ico:'⛪',cat:'História',txt:'Lavatório medieval — lavadouro público da época normanda.',map:'https://www.google.com/maps/search/?api=1&query=Lavatoio+Medievale+Cefalù'},
-        {ico:'🏖️',cat:'Praia',txt:'Praia de areia fina no centro histórico — rara na Sicília. Lidos completos.',map:'https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Cefalù+Sicily'}
+        {ico:'🏖️',cat:'Praia',txt:'Praia de areia fina no centro histórico — rara na Sicília. Lidos completos.',map:'https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Cefalù+Sicily'},
+        {ico:'📜',cat:'Curiosidade',txt:'A Cattedrale di Cefalù foi construída por um rei normando como promessa após sobreviver a uma tempestade.'},
+        {ico:'🏛️',cat:'Marco histórico/artístico',txt:'O mosaico do Pantocrator é um dos mais impressionantes da Europa.'},
+        {ico:'🎭',cat:'Cultura local',txt:'Mistura perfeita de turismo + autenticidade.'},
+        {ico:'🍷',cat:'Vinhos da região',txt:'Grillo e Catarratto — brancos típicos sicilianos.'},
+        {ico:'🍽️',cat:'Comida típica',txt:'Arancini (bolinho de arroz), peixes grelhados, pasta com frutos do mar.'}
        ]},
       {lbl:'Dia 5', title:'🚤 Ilhas Eólias — Lipari', dist:'barco', budget:'Barco ~25€, Refeição ~25€, Tour opcional ~30€',
        blocks:[
@@ -352,14 +368,24 @@ const TX = {
         {ico:'🏺',cat:'Arqueologia',txt:'Museu Eólio — achados arqueológicos das ilhas, história vulcânica.',map:'https://www.google.com/maps/search/?api=1&query=Museo+Archeologico+Eoliano+Lipari'},
         {ico:'⛪',cat:'Cultura & Fé',txt:'Catedral San Bartolomeo & claustro normando. Tesouro arquitetônico.',map:'https://www.google.com/maps/search/?api=1&query=Cattedrale+di+San+Bartolomeo+Lipari'},
         {ico:'🍽️',cat:'Almoço',txt:'Restaurante em Lipari (Marina Corta). Peixes frescos e especialidades sicilianas.',map:'https://www.google.com/maps/search/?api=1&query=Lipari+porto+ristorante'},
-        {ico:'🚤',cat:'Experiência',txt:'Tarde livre: praia (Canneto) ou tour de barco para ver Vulcano, grutas e paisagens.',map:'https://www.google.com/maps/search/?api=1&query=Lipari+boat+tour'}
+        {ico:'🚤',cat:'Experiência',txt:'Tarde livre: praia (Canneto) ou tour de barco para ver Vulcano, grutas e paisagens.',map:'https://www.google.com/maps/search/?api=1&query=Lipari+boat+tour'},
+        {ico:'📜',cat:'Curiosidade',txt:'As Isole Eolie eram consideradas na mitologia grega o lar de Éolo, deus dos ventos.'},
+        {ico:'🏛️',cat:'Marco histórico',txt:'Castello di Lipari foi ocupado por gregos, romanos, normandos — sequência rara.'},
+        {ico:'🎭',cat:'Cultura local',txt:'Vida marítima, ritmo lento, identidade própria.'},
+        {ico:'🍷',cat:'Vinho único',txt:'Malvasia delle Lipari — doce e sofisticado.'},
+        {ico:'🍽️',cat:'Comida típica',txt:'Pratos com alcaparras (especialidade local), peixe espada, saladas mediterrâneas frescas.'}
        ]},
       {lbl:'Dia 6', title:'Capo d\'Orlando — Encerramento', dist:'~40 km', budget:'Compras variável, Jantar Gala ~45€, Lido ~15€',
        blocks:[
         {ico:'🏰',cat:'Cultura',txt:'Torre medieval de Capo d\'Orlando — mirante histórico com vista das Ilhas Eólias.',map:'https://www.google.com/maps/search/?api=1&query=Torre+medievale+Capo+d+Orlando'},
         {ico:'🛍️',cat:'Shopping',txt:'Marina de Capo d\'Orlando — cerâmicas sicilianas, boutiques e artesanato local.',map:'https://www.google.com/maps/search/?api=1&query=Capo+d+Orlando+Marina+Messina'},
         {ico:'🏖️',cat:'Praia',txt:'Último banho de mar em Capo d\'Orlando, águas cristalinas e Lidos confortáveis.',map:'https://www.google.com/maps/search/?api=1&query=Spiaggia+Capo+d+Orlando'},
-        {ico:'🥂',cat:'Experiência',txt:'Jantar de encerramento — Ristorante Donna Villa (Patti). Brinde final com vista para as Eólias.',map:'https://www.google.com/maps/search/?api=1&query=Ristorante+Donna+Villa+Patti'}
+        {ico:'🥂',cat:'Experiência',txt:'Jantar de encerramento — Ristorante Donna Villa (Patti). Brinde final com vista para as Eólias.',map:'https://www.google.com/maps/search/?api=1&query=Ristorante+Donna+Villa+Patti'},
+        {ico:'📜',cat:'Curiosidade',txt:'O nome Capo d\'Orlando vem da lenda de Orlando (Roland), cavaleiro medieval.'},
+        {ico:'🎭',cat:'Cultura local',txt:'Cidade viva, menos turística, mais autêntica.'},
+        {ico:'🛍️',cat:'Artesanato',txt:'Cerâmicas sicilianas — mistura de influência árabe e barroca.'},
+        {ico:'🍷',cat:'Vinho da região',txt:'Nero d\'Avola — o tinto mais famoso da Sicília.'},
+        {ico:'🍽️',cat:'Comida típica',txt:'Caponata (berinjela agridoce) e Cassata siciliana (sobremesa clássica).'}
        ]}
     ],
     info:[
@@ -371,7 +397,7 @@ const TX = {
       </ul>`},
       {ico:'🍽️',title:'Gastronomia & Cultura',body:`<ul>
         <li><strong>Especialidades:</strong> Pasta alla Norma, Granita, Arancini, Cannoli</li>
-        <li><strong>Vinhos:</strong> Nero d'Avola, Etna Rosso, Malvasia das Eólias</li>
+        <li><strong>Vinhos:</strong> Nero d'Avola, Etna Rosso, Malvasia delle Lipari</li>
         <li><strong>Dietas:</strong> Vegetariano/sem glúten sob solicitação prévia</li>
         <li><strong>Sítios culturais:</strong> Igrejas barrocas, ruínas gregas, teatros antigos, museus</li>
         <li><strong>Dica:</strong> Roupa adequada para igrejas (ombros e joelhos cobertos)</li>
@@ -429,7 +455,12 @@ const TX = {
        blocks:[
         {ico:'⛪',cat:'Culture & Foi',txt:'Sanctuaire de Tindari — mosaïques byzantines, Madone Noire et vue panoramique sur le golfe.',map:'https://www.google.com/maps/search/?api=1&query=Santuario+di+Tindari+Sicily'},
         {ico:'🏖️',cat:'Nature & Plage',txt:'Laghetti di Marinello (Oliveri). Eaux chaudes et peu profondes, parfaites pour enfants et seniors.',map:'https://www.google.com/maps/search/?api=1&query=Laghetti+di+Marinello+Oliveri'},
-        {ico:'🍝',cat:'Gastronomie',txt:'Trattoria locale. Dîner d\'accueil avec pâtes aux fruits de mer.',map:'https://www.google.com/maps/search/?api=1&query=Trattoria+Oliveri+Sicily'}
+        {ico:'🍝',cat:'Gastronomie',txt:'Trattoria locale. Dîner d\'accueil avec pâtes aux fruits de mer.',map:'https://www.google.com/maps/search/?api=1&query=Trattoria+Oliveri+Sicily'},
+        {ico:'📜',cat:'Curiosité',txt:'La Laghetti di Marinello change constamment de forme à cause des courants — il n\'y a pas d\'égal fixe.'},
+        {ico:'🏛️',cat:'Repère historique',txt:'Le Santuario di Tindari abrite la Madonna Nera, liée à des légendes de miracles depuis le Moyen Âge.'},
+        {ico:'🎭',cat:'Culture locale',txt:'Mélange de tradition religieuse intense et de vie côtière simple.'},
+        {ico:'🍷',cat:'Vin de la région',txt:'Mamertino DOC — vin historique, Jules César en buvait dit-on.'},
+        {ico:'🍽️',cat:'Plat typique',txt:'Pâtes à la sardine, anchois frais, granita avec brioche (petit-déjeuner sicilien classique).'}
        ]},
       {lbl:'Jour 2', title:'Etna + Alcantara + Taormine', dist:'~200 km', budget:'Repas ~30€, 4x4 optionnel 35€, Granita 5€',
        blocks:[
@@ -437,21 +468,36 @@ const TX = {
         {ico:'🏞️',cat:'Géologie',txt:'Gorges de l\'Alcantara — colonnes basaltiques, courte promenade sécurisée.',map:'https://www.google.com/maps/search/?api=1&query=Gole+Alcantara'},
         {ico:'🏛️',cat:'Histoire',txt:'Théâtre Antique de Taormine — ruines gréco-romaines avec vue mer et Etna.',map:'https://www.google.com/maps/search/?api=1&query=Teatro+Antico+Taormina'},
         {ico:'⛪',cat:'Culture',txt:'Dôme de Taormine & églises baroques dans le centre historique.',map:'https://www.google.com/maps/search/?api=1&query=Duomo+di+Taormina'},
-        {ico:'🍧',cat:'Granita & Détente',txt:'Granita au Bam Bar, lieu iconique. Promenade dans le Corso Umberto.',map:'https://www.google.com/maps/search/?api=1&query=Bam+Bar+Taormina'}
+        {ico:'🍧',cat:'Granita & Détente',txt:'Granita au Bam Bar, lieu iconique. Promenade dans le Corso Umberto.',map:'https://www.google.com/maps/search/?api=1&query=Bam+Bar+Taormina'},
+        {ico:'📜',cat:'Curiosité',txt:'L\'Etna est l\'un des volcans les plus actifs au monde — et produit certains des meilleurs vins d\'Italie.'},
+        {ico:'🏛️',cat:'Repère historique',txt:'Le Teatro Antico di Taormina fut construit par les Grecs et adapté par les Romains — histoire en couches.'},
+        {ico:'🎭',cat:'Culture locale',txt:'Taormine est la « Sicile raffinée » — mélange d\'élite européenne, cinéma et tradition.'},
+        {ico:'🍷',cat:'Vins incontournables',txt:'Etna Rosso DOC (minéral, élégant) et Nerello Mascalese (cépage volcanique typique).'},
+        {ico:'🍽️',cat:'Plat typique',txt:'Pasta alla Norma (aubergine + ricotta salée) et Cannoli (origine arabo-sicilienne).'}
        ]},
       {lbl:'Jour 3', title:'Montalbano & Mégalithes d\'Argimusco', dist:'~90 km', budget:'Repas ~25€, Dégustation vins ~10€',
        blocks:[
         {ico:'🏰',cat:'Histoire',txt:'Château médiéval de Montalbano Elicona — l\'un des plus beaux villages d\'Italie.',map:'https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+Messina'},
         {ico:'⛪',cat:'Culture & Foi',txt:'Église normande Santa Maria Assunta — art sacré et crypte médiévale.',map:'https://www.google.com/maps/search/?api=1&query=Chiesa+Santa+Maria+Assunta+Montalbano+Elicona'},
         {ico:'🗿',cat:'Expérience',txt:'Plateau d\'Argimusco — mégalithes mystérieux, alignements ancestraux.',map:'https://www.google.com/maps/search/?api=1&query=Argimusco+Megaliths+Sicily'},
-        {ico:'🍝',cat:'Gastronomie',txt:'Trattoria typique à Montalbano. Cuisine locale authentique et dégustation de vins.',map:'https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+ristorante+tipico'}
+        {ico:'🍝',cat:'Gastronomie',txt:'Trattoria typique à Montalbano. Cuisine locale authentique et dégustation de vins.',map:'https://www.google.com/maps/search/?api=1&query=Montalbano+Elicona+ristorante+tipico'},
+        {ico:'📜',cat:'Curiosité',txt:'L\'Argimusco est surnommé le « Stonehenge de la Sicile » — formations naturelles ressemblant à des sculptures humaines.'},
+        {ico:'🏛️',cat:'Repère historique',txt:'Castello di Montalbano Elicona fut résidence des rois aragonais.'},
+        {ico:'🎭',cat:'Culture locale',txt:'Vie rurale, traditions préservées, peu d\'influence touristique.'},
+        {ico:'🍷',cat:'Vin de la région',txt:'Faro DOC — moins connu mais excellent.'},
+        {ico:'🍽️',cat:'Plat typique',txt:'Fromages des Nebrodi, porc noir sicilien, champignons sauvages.'}
        ]},
       {lbl:'Jour 4', title:'Cefalù — Cathédrale, Art & Plage', dist:'~120 km', budget:'Repas ~30€, Lido 20€, Cathédrale ~3€',
        blocks:[
         {ico:'🏛️',cat:'UNESCO',txt:'Cathédrale normande de Cefalù — mosaïques byzantines, joyau au bord de la mer.',map:'https://www.google.com/maps/search/?api=1&query=Cattedrale+di+Cefalù+UNESCO'},
         {ico:'🎨',cat:'Art',txt:'Musée Mandralisca — collection d\'art et archéologie, Portrait d\'un Inconnu.',map:'https://www.google.com/maps/search/?api=1&query=Museo+Mandralisca+Cefalù'},
         {ico:'⛪',cat:'Histoire',txt:'Lavoir Médiéval — lavoir public de l\'époque normande.',map:'https://www.google.com/maps/search/?api=1&query=Lavatoio+Medievale+Cefalù'},
-        {ico:'🏖️',cat:'Plage',txt:'Plage de sable fin au centre-ville, rare en Sicile. Lidos complets.',map:'https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Cefalù+Sicily'}
+        {ico:'🏖️',cat:'Plage',txt:'Plage de sable fin au centre-ville, rare en Sicile. Lidos complets.',map:'https://www.google.com/maps/search/?api=1&query=Spiaggia+di+Cefalù+Sicily'},
+        {ico:'📜',cat:'Curiosité',txt:'La Cattedrale di Cefalù fut construite par un roi normand en promesse après avoir survécu à une tempête.'},
+        {ico:'🏛️',cat:'Repère historique/artistique',txt:'La mosaïque du Pantocrator est l\'une des plus impressionnantes d\'Europe.'},
+        {ico:'🎭',cat:'Culture locale',txt:'Mélange parfait de tourisme + authenticité.'},
+        {ico:'🍷',cat:'Vins de la région',txt:'Grillo et Catarratto — blancs typiques siciliens.'},
+        {ico:'🍽️',cat:'Plat typique',txt:'Arancini (boulettes de riz), poissons grillés, pâtes aux fruits de mer.'}
        ]},
       {lbl:'Jour 5', title:'🚤 Îles Éoliennes — Lipari', dist:'bateau', budget:'Bateau ~25€, Repas ~25€, Tour optionnel ~30€',
        blocks:[
@@ -459,14 +505,24 @@ const TX = {
         {ico:'🏺',cat:'Archéologie',txt:'Musée Éolien — vestiges archéologiques des îles, histoire volcanique.',map:'https://www.google.com/maps/search/?api=1&query=Museo+Archeologico+Eoliano+Lipari'},
         {ico:'⛪',cat:'Culture & Foi',txt:'Cathédrale San Bartolomeo & cloître normand. Trésor architectural.',map:'https://www.google.com/maps/search/?api=1&query=Cattedrale+di+San+Bartolomeo+Lipari'},
         {ico:'🍽️',cat:'Déjeuner',txt:'Restaurant à Lipari (Marina Corta). Poissons frais, spécialités siciliennes.',map:'https://www.google.com/maps/search/?api=1&query=Lipari+porto+ristorante'},
-        {ico:'🚤',cat:'Expérience',txt:'Après-midi libre : plage (Canneto) ou tour en bateau pour voir Vulcano, grottes et paysages.',map:'https://www.google.com/maps/search/?api=1&query=Lipari+boat+tour'}
+        {ico:'🚤',cat:'Expérience',txt:'Après-midi libre : plage (Canneto) ou tour en bateau pour voir Vulcano, grottes et paysages.',map:'https://www.google.com/maps/search/?api=1&query=Lipari+boat+tour'},
+        {ico:'📜',cat:'Curiosité',txt:'Les Isole Eolie étaient considérées dans la mythologie grecque comme la demeure d\'Éole, dieu des vents.'},
+        {ico:'🏛️',cat:'Repère historique',txt:'Castello di Lipari fut occupé par les Grecs, Romains, Normands — séquence rare.'},
+        {ico:'🎭',cat:'Culture locale',txt:'Vie maritime, rythme lent, identité propre.'},
+        {ico:'🍷',cat:'Vin unique',txt:'Malvasia delle Lipari — doux et sophistiqué.'},
+        {ico:'🍽️',cat:'Plat typique',txt:'Plats aux câpres (spécialité locale), espadon, salades méditerranéennes fraîches.'}
        ]},
       {lbl:'Jour 6', title:'Capo d\'Orlando — Clôture', dist:'~40 km', budget:'Shopping variable, Dîner Gala ~45€, Lido ~15€',
        blocks:[
         {ico:'🏰',cat:'Culture',txt:'Tour médiévale de Capo d\'Orlando — belvédère historique avec vue sur les Éoliennes.',map:'https://www.google.com/maps/search/?api=1&query=Torre+medievale+Capo+d+Orlando'},
         {ico:'🛍️',cat:'Shopping',txt:'Marina de Capo d\'Orlando — céramiques siciliennes, boutiques et artisanat local.',map:'https://www.google.com/maps/search/?api=1&query=Capo+d+Orlando+Marina+Messina'},
         {ico:'🏖️',cat:'Plage',txt:'Dernière baignade à Capo d\'Orlando, eaux cristallines, Lidos confortables.',map:'https://www.google.com/maps/search/?api=1&query=Spiaggia+Capo+d+Orlando'},
-        {ico:'🥂',cat:'Expérience',txt:'Dîner de clôture — Ristorante Donna Villa (Patti). Toast final avec vue sur les Éoliennes.',map:'https://www.google.com/maps/search/?api=1&query=Ristorante+Donna+Villa+Patti'}
+        {ico:'🥂',cat:'Expérience',txt:'Dîner de clôture — Ristorante Donna Villa (Patti). Toast final avec vue sur les Éoliennes.',map:'https://www.google.com/maps/search/?api=1&query=Ristorante+Donna+Villa+Patti'},
+        {ico:'📜',cat:'Curiosité',txt:'Le nom Capo d\'Orlando vient de la légende de Roland, chevalier médiéval.'},
+        {ico:'🎭',cat:'Culture locale',txt:'Ville vivante, moins touristique, plus authentique.'},
+        {ico:'🛍️',cat:'Artisanat',txt:'Céramiques siciliennes — mélange d\'influence arabe et baroque.'},
+        {ico:'🍷',cat:'Vin de la région',txt:'Nero d\'Avola — le rouge le plus célèbre de Sicile.'},
+        {ico:'🍽️',cat:'Plat typique',txt:'Caponata (aubergine aigre-douce) et Cassata siciliana (dessert classique).'}
        ]}
     ],
     info:[
@@ -478,7 +534,7 @@ const TX = {
       </ul>`},
       {ico:'🍽️',title:'Gastronomie & Culture',body:`<ul>
         <li><strong>Spécialités :</strong> Pasta alla Norma, Granita, Arancini, Cannoli</li>
-        <li><strong>Vins :</strong> Nero d'Avola, Etna Rosso, Malvasia des Éoliennes</li>
+        <li><strong>Vins :</strong> Nero d'Avola, Etna Rosso, Malvasia delle Lipari</li>
         <li><strong>Régimes :</strong> Végétarien/sans gluten sur demande préalable</li>
         <li><strong>Sites culturels :</strong> Églises baroques, ruines grecques, théâtres antiques, musées</li>
         <li><strong>Conseil :</strong> Tenue correcte pour les églises (épaules et genoux couverts)</li>
@@ -614,7 +670,7 @@ function render(){
               <div class="b-info">
                 <div class="b-cat">${b.cat}</div>
                 <div class="b-txt">${b.txt}</div>
-                <a href="${b.map}" target="_blank" rel="noopener" class="map-btn">📍 ${T.mapBtn}</a>
+                ${b.map ? `<a href="${b.map}" target="_blank" rel="noopener" class="map-btn">📍 ${T.mapBtn}</a>` : ''}
               </div>
             </div>
           `).join('')}
